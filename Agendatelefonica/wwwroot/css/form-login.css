@@ -1,0 +1,46 @@
+﻿
+* {
+    font-family: Noto Sans TC, sans-serif;
+}
+
+.contenedor-imgfondo {
+    min-height: 100vh;
+    background-image: url(/img/Background_Agenda-min.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.imagen-logo {
+    width: 225px;
+    height: 225px;
+    margin-bottom: 30px;
+}
+
+    .imagen-logo img {
+        width: 100%;
+    }
+
+.columna-bacground {
+    background-color: rgba(0, 3, 49, 0.8);
+}
+
+.ss {
+    background-color: rgba(255,255,255,0.0);
+    border: 0;
+    border-bottom: 1px solid white;
+    border-radius: 0;
+    color: white
+}
+
+    .ss:focus {
+        background-color: rgba(255,255,255,0.0);
+        box-shadow: none;
+        color: white
+    }
+
+
+
+
+

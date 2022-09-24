@@ -1,0 +1,1668 @@
+﻿@using Microsoft.AspNetCore.Identity; 
+@using Agendatelefonica.ViewModels;
+@model IEnumerable<ElectromecanicaView>;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="icon" href="/img/icono-agenda.png">
+    <title>AgendaTelefonica</title>
+</head>
+<body style="background-color:rgb(234 228 228)">
+
+
+
+    <div class="container-fluid overflow-hidden ">
+
+        <div class="row  ">
+
+            <!--Menu lateral-->
+            <div class="col-12 col-lg-2 g-0  ">
+
+
+
+                <div class="bg-dark contenedor-menu-lateral pt-lg-5 d-flex justify-content-center">
+
+                    
+
+                    <!--- Area de Links del menu lateral-->
+                    
+
+                    <div class="nav nav-pills " id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+                        <ul class="nav nav-pills d-lg-flex flex-lg-column " id="menu">
+
+                            <!---Home-->
+                            <li class="  my-3 px-3 px-lg-0 ">
+
+                                <a href="#" class=" text-decoration-none " id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                                    <i class="fs-5 bi-house"></i><span class="ms-2 d-none d-md-inline ">Home</span>
+                                </a>
+                            </li>
+
+                            <!---en espera-->
+                            <li class="my-3 px-3 px-lg-0 ">
+                                <a href="#" class=" text-decoration-none" id="v-pills-profile-tab"
+                                   data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button"
+                                   role="tab" aria-controls="v-pills-profile" aria-selected="false">
+                                    <i class="fs-5 bi-speedometer2"></i><span class="ms-2 d-none d-md-inline ">en espera</span>
+                                </a>
+                            </li>
+                            <!--Salir-->
+                            <li class="my-3 px-3 px-lg-0 ">
+                                <a asp-action="Logout" asp-controller="Acceso" class=" text-decoration-none">
+                                    <i class="fas fa-regular fa-right-from-bracket"></i><span class="ms-2 d-none d-md-inline ">Salir</span>
+                                </a>
+                            </li>
+
+
+
+                        </ul>
+
+                    
+                    </div>
+
+
+
+
+                
+
+
+                </div>
+
+            </div>
+            <!----area de secciones del menu lateral a al vez es el cuerpo de la pagina-->
+            <div class="col-12 col-lg-10 ">
+
+                <main class="row overflow-auto pb-2">
+
+                    <div class="col pt-4">
+
+                        <div class="tab-content" id="v-pills-tabContent">
+
+                            <!--Seccion 1 menu lateral-->
+                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                                 aria-labelledby="v-pills-home-tab">
+
+
+                                <!---Area del menu primcipal-->
+                                <div class="container-menu-principal mx-3 ">
+
+
+                                    <div class="row bg-white  fila-primaria">
+
+                                        <!---columna tab pestañas-->
+
+                                        <div class="col-12">
+
+                                            <!--- Menu tab/pestañas dinamicas Menu tab/pestañas dinamicas-->
+
+                                            <nav class="container-menu-secundario">
+
+                                                <div class=" menu nav  nav-tabs " id="nav-tab" role="tablist">
+
+                                                    <button class="nav-link active " id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                                                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                                                        <i class="fa-solid fa-gears icono-menu-secundario"></i>Electromecanica 
+                                                    </button>
+                                                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                                                            type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+                                                        <i class="fa-solid fa-screwdriver-wrench icono-menu-secundario-mant"></i> Mantenedores
+                                                    </button>
+
+                                                    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
+                                                            type="button" role="tab" aria-controls="nav-contact" aria-selected="false">
+                                                        <i class="fas fa-light fa-phone icono-menu-secundario-mant"></i> Estaciones
+                                                    </button>
+
+
+                                                    @if(User.IsInRole("Administrador"))
+                                                    {
+
+
+
+                                                    <div class="d-flex align-items-center ms-3">
+                                                        <!--Button trigger modal-->
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#modalAgregarMantenedor" class=" text-decoration-none " id="agregarmantenedor"><i class="fas fa-thin fa-user-plus icono_agregarNuevo"></i> Mantenedor</a>
+
+                                                    </div>
+
+                                                    <div class="d-flex align-items-center ms-3">
+                                                        <!--Button trigger modal-->
+                                                        <a href="#" data-bs-toggle="modal" data-bs-target="#modalagregarElectromecanico" class=" text-decoration-none " id="agregarElectromecanico"><i class="fas fa-thin fa-user-plus icono_agregarNuevo"></i> Electromecanica</a>
+
+                                                    </div>
+
+                                                    }
+                                                </div>
+
+
+                                            </nav>
+                                        </div>
+
+                                        <!---columna filtro-->
+
+                                        <div class="col-12 my-4 container-filtro ">
+
+                                            <input class=" filtro form-control" id="electromecanica" placeholder="Filtrar.." />
+                                        </div>
+
+                                        <!---columna tabla-->
+                                        <div class="col-12 tabla">
+
+                                            <div class="tab-content" id="nav-tabContent">
+
+                                                <!---------Seccion 1 tabla Electromecanica---------->
+
+                                                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                                                    <table class="table  ">
+
+                                                        <thead class=" text-primary ">
+
+                                                            <tr>
+                                                                <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+                                                                <th>@Html.DisplayNameFor(model => model.Telefono)</th>
+                                                                <th>@Html.DisplayNameFor(model => model.Extension)</th>
+                                                                <th>@Html.DisplayNameFor(model => model.Correo)</th>
+                                                                <th>@Html.DisplayNameFor(model => model.Subsistema)</th>
+
+
+                                                                @if (User.IsInRole("Administrador"))
+                                                                {
+
+                                                                    <th colspan="2" class="text-center">Operaciones</th>
+                                                                }
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tbodydata" class="">
+                                                        </tbody>
+
+
+
+
+
+                                                    </table>
+
+                                                </div>
+
+                                                <!---Seccion 2 tabla Matenedor-->
+                                                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+                                                    <table class="table ">
+                                                        <thead class="text-primary">
+
+                                                            <tr>
+                                                                <th>Mantenedor</th>
+                                                                <th>Nombre</th>
+                                                                <th>Funcion</th>
+                                                                <th>Telefono</th>
+                                                                <th>Extension</th>
+                                                                <th>Radio Tetra</th>
+                                                                <th>Subsistema</th>
+
+                                                                @if (User.IsInRole("Administrador"))
+                                                                {
+
+                                                                    <th colspan="2" class="text-center">Operaciones</th>
+                                                                }
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tbodydataMantenedor">
+                                                        </tbody>
+
+
+
+                                                    </table>
+
+                                                </div>
+
+
+                                                <!---Seccion 3 tabla-->
+                                                <div class="tab-pane fade" id="nav-contact" role="tabpanel"
+                                                     aria-labelledby="nav-contact-tab">
+                                                    NOSOTROS Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                                    Ipsum odit quis mollitia nemo, eligendi provident qui! Debitis veniam quod, autem adipisci a deserunt
+                                                    mollitia architecto enim nesciunt sapiente officia illum.
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+
+
+
+
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+
+
+
+
+
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                                 aria-labelledby="v-pills-profile-tab">...</div>
+                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                                 aria-labelledby="v-pills-messages-tab">...</div>
+                            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
+                                 aria-labelledby="v-pills-settings-tab">...</div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="row bg-light py-4 mx-1 rounded-2 ">
+                    <div class="col-12 text-success text-"><strong>&copy; Wilson Garcia Nova Disign</strong> </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Modal  para actualizar Mantenedor-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="exampleModalLabel">Editar Mantenedor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" id="form_ActualizarMantenedor">
+                    <div class="modal-body row ">
+
+                        <div class="col-12 mb-3 container-input">
+
+
+                            <input class="form-control" id="idmantenedor" hidden disabled />
+
+                        </div>
+
+                        <div class="col-6 mb-3 container-input">
+
+                            <label class="form-label">Mantenedor</label>
+                            <input class="form-control" id="mantenedor" />
+
+                        </div>
+                        <div class="col-6 mb-3 container-input">
+
+                            <label class="form-label">Nombre</label>
+                            <input class="form-control" id="nombre" />
+
+                        </div>
+                        <div class="col-6 mb-3 container-input">
+
+                            <label class="form-label">Funcion</label>
+                            <input class="form-control" id="funcion" />
+
+                        </div>
+                        <div class="col-6  mb-3 container-input">
+
+                            <label class="form-label">Telefono</label>
+                            <input class="form-control" id="telefono" />
+
+                        </div>
+
+                        <div class="col-6  mb-3 container-input">
+
+                            <label class="form-label">Extension</label>
+                            <input class="form-control" id="extension" />
+
+                        </div>
+
+                        <div class="col-6  mb-3 container-input">
+
+                            <label class="form-label">Radio Tetra</label>
+                            <input class="form-control" id="radiotetra" />
+
+                        </div>
+
+                        <div class="col-6 mb-3 container-input">
+
+                            <label class="form-label">Subsistema</label>
+                            <input class="form-control" id="subsistema" />
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar_actualizar">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </div>
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agrega mantenedor-->
+    <div class="modal fade" id="modalAgregarMantenedor" data-bs-backdrop="static" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="exampleModalLabel">Agregar Mantenedor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form method="post" id="formulario">
+
+                    <div class="modal-body row" id="divpadre">
+
+
+
+                        <div class="col-6 mb-3 container-input icono-error">
+
+                            <label class="form-label">Mantenedor</label>
+                            <input class="form-control campos-obligatorios " id="mantenedoragregar" />
+                            <span class="campo_correcto hijos" id="error-mantenedor"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+                        <div class="col-6 mb-3 container-input">
+
+                            <label class="form-label">Nombre</label>
+                            <input class="form-control campos-obligatorios" id="nombreagregar" />
+                            <span class="campo_correcto hijos" id="error-nombre"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+                        <div class="col-6 mb-3 container-input">
+
+                            <label class="form-label">Funcion</label>
+                            <input class="form-control campos-obligatorios" id="funcionagregar" />
+                            <span class="campo_correcto hijos" id="error-funcion"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+                        <div class="col-6  mb-3 container-input">
+
+                            <label class="form-label">Telefono</label>
+                            <input class="form-control campos-obligatorios" id="telefonoagregar" />
+                            <span class="campo_correcto hijos" id="error-telefono"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+                        <div class="col-6  mb-3 container-input">
+
+                            <label class="form-label">Extension</label>
+                            <input class="form-control campos-obligatorios" id="extensionagregar" />
+                            <span class="campo_correcto hijos" id="error-extension"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+
+                        <div class="col-6  mb-3 container-input">
+
+                            <label class="form-label">Radio Tetra</label>
+                            <input class="form-control campos-obligatorios" id="radiotetraagregar" />
+                            <span class="campo_correcto hijos" id="error-radiotetra"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+
+                        <div class="col-6 mb-3 container-input ">
+
+                            <label class="form-label">Subsistema</label>
+                            <input class="form-control campos-obligatorios" id="subsistemaagregar" />
+                            <span class="campo_correcto hijos" id="error-subsistema"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+
+                        <div class="col-12 mb-3 container-input ">
+
+                            <div class="alert alert-danger alert-campos-obligatorios" role="alert" id="alert_camposObligatorios">
+                                <p> Los campos marcados con  <span class="Icono_alerta "><i class="bi bi-x-circle-fill"></i></span>  son requeridos.</p>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary " data-bs-dismiss="modal" id="Mant_Btncerrar">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Agregar</button>
+                    </div>
+
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- Modal para agrega Electromecanico-->
+    <div class="modal fade" id="modalagregarElectromecanico" data-bs-backdrop="static" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="exampleModalLabel">Agregar Electromecanica</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form method="post" id="form_AgregarElectromecanico">
+
+                    <div class="modal-body row" id="elect_divpadre">
+
+
+                        <div class="col-6 mb-3 container-input">
+
+                            <label class="form-label">Nombre</label>
+                            <input class="form-control elect_campos-obligatorios" id="elect_nombreagregar" />
+                            <span class="campo_correcto elect_hijos" id="elect_error-nombre"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+                        <div class="col-6 mb-3 container-input">
+
+                            <label class="form-label">Telefono</label>
+                            <input class="form-control elect_campos-obligatorios" id="elect_telefonoagregar" />
+                            <span class="campo_correcto elect_hijos" id="elect_error-telefono"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+                        <div class="col-6  mb-3 container-input">
+
+                            <label class="form-label">Correo</label>
+                            <input class="form-control elect_campos-obligatorios" id="elect_correoagregar" />
+                            <span class="campo_correcto elect_hijos" id="elect_error-correo"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+                        <div class="col-6 mb-3 container-input ">
+
+                            <label class="form-label">Extension</label>
+                            <input class="form-control elect_campos-obligatorios" id="elect_extensionagregar" />
+                            <span class="campo_correcto elect_hijos" id="elect_error-extension"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+
+                        <div class="col-6 mb-3 container-input ">
+
+                            <label class="form-label">Subsistema</label>
+                            <input class="form-control elect_campos-obligatorios" id="elect_subsistemaagregar" />
+                            <span class="campo_correcto elect_hijos" id="elect_error-subsistema"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+
+                        <div class="col-12 mb-3 container-input ">
+
+                            <div class="alert alert-danger alert-campos-obligatorios" role="alert" id="electAlertActualizar_camposObligatorios">
+                                Todos los campos son requridos
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="elect_btncerrar">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Agregar</button>
+                    </div>
+
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <!-- Modal para actualizar Electromecanico-->
+    <div class="modal fade" id="modalActualizar_elect" data-bs-backdrop="static" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="exampleModalLabel">Actualizar Electromecanica</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form method="post" id="form_ActualizarElectromecanico">
+
+                    <div class="modal-body row" id="elect_divpadre">
+
+                        <div class="col-12 mb-3 container-input">
+
+                           
+                            <input class="form-control elect_campos-obligatorios" id="elect_idactualizar" hidden disabled/>
+
+
+                        </div>
+                        <div class="col-6 mb-3 container-input">
+
+                            <label class="form-label">Nombre</label>
+                            <input class="form-control elect_campos-obligatorios" id="elect_nombreactualizar" />
+                            <span class="campo_correcto elect_hijos" id="elect_error-nombre"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+                        <div class="col-6 mb-3 container-input">
+
+                            <label class="form-label">Telefono</label>
+                            <input class="form-control elect_campos-obligatorios" id="elect_telefonoactualizar" />
+                            <span class="campo_correcto elect_hijos" id="elect_error-telefono"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+                        <div class="col-6  mb-3 container-input">
+
+                            <label class="form-label">Correo</label>
+                            <input class="form-control elect_campos-obligatorios" id="elect_correoactualizar" />
+                            <span class="campo_correcto elect_hijos" id="elect_error-correo"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+                        <div class="col-6 mb-3 container-input ">
+
+                            <label class="form-label">Extension</label>
+                            <input class="form-control elect_campos-obligatorios" id="elect_extensionactualizar" />
+                            <span class="campo_correcto elect_hijos" id="elect_error-extension"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+                        <div class="col-6 mb-3 container-input ">
+
+                            <label class="form-label">Subsistema</label>
+                            <input class="form-control elect_campos-obligatorios" id="elect_subsistemaactualizar" />
+                            <span class="campo_correcto elect_hijos" id="elect_error-subsistema"><i class="bi bi-x-circle-fill"></i></span>
+
+                        </div>
+
+                        <div class="col-12 mb-3 container-input ">
+
+                            <div class="alert alert-danger alert-campos-obligatorios" role="alert" id="electalert_camposObligatorios">
+                                Todos los campos son requridos.
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="Elect_btncerrar_actualizar">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Agregar</button>
+                    </div>
+
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/c6f899d35a.js" crossorigin="anonymous"></script>
+
+
+    
+</body>
+</html>
+
+<script>
+
+    window.onload = function () {
+
+        const url = "Mantenedores/Electromecanica";
+        listarElectromecanica(url);
+
+        const urlmantenedor = "Mantenedores/Mantenedores";
+
+        listarMantenedores(urlmantenedor);
+
+    }
+
+
+
+
+    //----------filtrar Electromecanica----------------------------//
+
+    const electromecanica = document.getElementById("electromecanica");
+
+    function filtrarElectromecanica() {
+
+        const url = "/Mantenedores/Electromecanica/?electromecanico=" + electromecanica.value;
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+
+                /*alert(JSON.stringify(data))*/
+
+                listarElectromecanica(url);
+
+
+
+            })
+
+
+    }
+
+    electromecanica.addEventListener("keyup", filtrarElectromecanica)
+
+
+
+    //--------------Listar Mantenedores------------------------
+
+    function listarMantenedores(urlmantenedor) {
+
+
+        fetch(urlmantenedor)
+            .then(res => res.json())
+            .then(data => {
+
+
+                
+                let tbodydataMantenedor = document.getElementById("tbodydataMantenedor");
+
+                let filas = "";
+
+            
+
+
+                for (var i = 0; i < data.length; i++) {
+
+                    if (data[i].extension == null) data[i].extension = "n/a";
+                    if (data[i].radioTetra == null) data[i].radioTetra = "n/a";
+
+
+                    filas += `
+                        <tr>
+
+
+
+                            <td>${data[i].mantenedor}</td>
+                            <td>${data[i].nombre}</td>
+                            <td>${data[i].funcion}</td>
+                            <td>${data[i].telefono}</td>
+                            <td>${data[i].extension}</td>
+                            <td>${data[i].radioTetra}</td>
+                            <td>${data[i].subsistema}</td>
+
+
+
+                                  @if (User.IsInRole("Administrador"))
+                                    {
+
+                                        <td>
+
+                                             <!-- Button trigger modal -->
+                                            <a href="" onclick="buscarActualizar(${data[i].id})" class="link-primary text-decoration-none"  data-bs-toggle="modal" data-bs-target="#exampleModal"> Actualizar </a>
+
+                                       </td>
+
+                                        <td>
+
+                                            <a href="#" onclick="Eliminar(${data[i].id})" class="link-danger text-decoration-none" >Eliminar</a>
+
+                                        </td>
+
+
+                                    }
+
+
+                        </tr>
+
+                    `
+
+
+                }
+
+                tbodydataMantenedor.innerHTML = filas;
+
+
+            })
+
+
+    }
+
+
+    //----------filtrar Mantenedores----------------------------//
+
+    const mantenedor = document.getElementById("electromecanica");
+
+    function filtrarMantenedor() {
+
+        const urlmantenedor = "/Mantenedores/Mantenedores/?mantenedor=" + mantenedor.value;
+        fetch(urlmantenedor)
+            .then(res => res.json())
+            .then(data => {
+
+                /*alert(JSON.stringify(data))*/
+
+                listarMantenedores(urlmantenedor);
+
+
+
+            })
+    }
+
+    mantenedor.addEventListener("keyup", filtrarMantenedor);
+
+
+    //------------------ buscar mantenedor a actualizar ---------------//
+
+    function buscarActualizar(id) {
+
+        const urlActualizar = "Mantenedores/Buscarmantenedor/?id=" + id;
+
+        fetch(urlActualizar)
+            .then(res => res.json())
+            .then(data => {
+
+
+
+
+                const idmantenedor = document.getElementById("idmantenedor");
+                const mantenedor = document.getElementById("mantenedor");
+                const nombre = document.getElementById("nombre");
+                const funcion = document.getElementById("funcion");
+                const telefono = document.getElementById("telefono");
+                const subsistema = document.getElementById("subsistema");
+
+                idmantenedor.value = data.id;
+                mantenedor.value = data.mantenedor;
+                nombre.value = data.nombre;
+                funcion.value = data.funcion;
+                telefono.value = data.telefono;
+                subsistema.value = data.subsistema;
+
+            })
+            .catch(e => alert(e))
+
+
+
+    }
+
+
+    //------------------ Actualizar mantenedor ---------------//
+
+    const actualizarMantenedor = document.getElementById("form_ActualizarMantenedor");
+
+    function EditarMantenedor(e) {
+
+        e.preventDefault();
+
+        const idmantenedor = Number(document.getElementById("idmantenedor").value);
+        const mantenedor = document.getElementById("mantenedor").value;
+        const nombre = document.getElementById("nombre").value;
+        const funcion = document.getElementById("funcion").value;
+        const telefono = document.getElementById("telefono").value;
+        const extension = document.getElementById("extension").value;
+        const radiotetra = document.getElementById("radiotetra").value;
+        const subsistema = document.getElementById("subsistema").value;
+
+        const url = "Mantenedores/CrearActualizar/?mantenedores";
+
+        fetch(url, {
+
+            method: "POST",
+
+            headers: {
+
+                'Content-Type': 'application/json'
+
+            },
+
+            body: JSON.stringify({
+
+                id: idmantenedor,
+                mantenedor: mantenedor,
+                nombre: nombre,
+                funcion: funcion,
+                telefono: telefono,
+                extension: extension,
+                radiotetra: radiotetra,
+                subsistema: subsistema
+
+
+
+            })
+
+
+
+        })
+            .then(res => res.json())
+            .then(data => {
+
+                if (data == 2) {
+                    // para que el modal se cierre automaticamente al actualizar
+                    const btncerrar = document.getElementById("btncerrar_actualizar");
+                    btncerrar.click();
+
+                    //alerta de actualizacion
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Se ha actualizado correctamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+
+
+                    document.getElementById("idmantenedor").value = "";
+                    document.getElementById("mantenedor").value = "";
+                    document.getElementById("nombre").value = "";
+                    document.getElementById("funcion").value = "";
+                    document.getElementById("telefono").value = "";
+                    document.getElementById("subsistema").value = "";
+                    document.getElementById("extension").value = "";
+                    document.getElementById("radiotetra").value = "";
+
+                    const urlmantenedor = "Mantenedores/Mantenedores";
+
+                    listarMantenedores(urlmantenedor);
+
+
+
+                }
+
+                else {
+
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Ocurrio algun error intentelo de nuevo',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+            })
+
+
+    }
+
+    actualizarMantenedor.addEventListener("submit", EditarMantenedor)
+
+
+
+    //------------------ Eliminar mantenedor ---------------//
+
+    function Eliminar(id) {
+
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: "No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                const urlEliminar = "Mantenedores/EliminarMantenedor/?id=" + id;
+
+                fetch(urlEliminar)
+                    .then(res => res.json())
+                    .then(data => {
+
+                        if (data == 1) {
+
+                            const urlmantenedor = "Mantenedores/Mantenedores";
+
+                            listarMantenedores(urlmantenedor);
+
+
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Su registro ha sido eliminado',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+
+
+
+                        }
+                        else {
+
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Ocurrio algun error y el registro no pudo ser eliminado',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+
+
+
+                    })
+
+
+            }
+        })
+
+
+
+    }
+
+
+    const MantBtncerrar = document.getElementById("Mant_Btncerrar");
+
+    // funcion para que al hacer click en el boton cerrar del modal se limpien los campos y las alertas
+    //esta funcion pertenece al modal de crear mantenedor
+    MantBtncerrar.addEventListener("click", () => {
+
+
+
+        document.getElementById("mantenedoragregar").value = "";
+        document.getElementById("nombreagregar").value = "";
+        document.getElementById("funcionagregar").value = "";
+        document.getElementById("telefonoagregar").value = "";
+        document.getElementById("subsistemaagregar").value = "";
+
+        document.getElementById("alert_camposObligatorios").classList.add("alert-campos-obligatorios");;
+
+
+
+        document.getElementById("error-mantenedor").classList.remove("campo_incorrecto");
+        document.getElementById("error-nombre").classList.remove("campo_incorrecto");
+        document.getElementById("error-funcion").classList.remove("campo_incorrecto");
+        document.getElementById("error-telefono").classList.remove("campo_incorrecto");
+        document.getElementById("error-subsistema").classList.remove("campo_incorrecto");
+
+
+    })
+
+
+
+    //------------------ Agregar Mantenedor ---------------//
+
+    const agregarMantenedor = document.getElementById("formulario");
+
+    function CrearMantenedor(e) {
+
+        e.preventDefault();
+
+
+
+        const mantenedor = document.getElementById("mantenedoragregar");
+        const nombre = document.getElementById("nombreagregar");
+        const funcion = document.getElementById("funcionagregar");
+        const telefono = document.getElementById("telefonoagregar");
+        const subsistema = document.getElementById("subsistemaagregar");
+        const extension = document.getElementById("extensionagregar");
+        const radioTetra = document.getElementById("radiotetraagregar");
+
+        const errorMantenedor = document.getElementById("error-mantenedor");
+        const errorNombre = document.getElementById("error-nombre");
+        const errorFuncion = document.getElementById("error-funcion");
+        const errorTelefono = document.getElementById("error-telefono");
+        //const errorExtension = document.getElementById("error-extension");
+        //const errorRadiotetra = document.getElementById("error-radiotetra");
+        const errorSubsistema = document.getElementById("error-subsistema");
+
+
+
+
+        mantenedor.value == "" ? errorMantenedor.classList.add("campo_incorrecto") : errorMantenedor.classList.remove("campo_incorrecto");
+        nombre.value == "" ? errorNombre.classList.add("campo_incorrecto") : errorNombre.classList.remove("campo_incorrecto");
+        funcion.value == "" ? errorFuncion.classList.add("campo_incorrecto") : errorFuncion.classList.remove("campo_incorrecto");
+        telefono.value == "" ? errorTelefono.classList.add("campo_incorrecto") : errorTelefono.classList.remove("campo_incorrecto");
+        //extension.value == "" ? errorExtension.classList.add("campo_incorrecto") : errorExtension.classList.remove("campo_incorrecto");
+        //radioTetra.value == "" ? errorRadiotetra.classList.add("campo_incorrecto") : errorRadiotetra.classList.remove("campo_incorrecto");
+        subsistema.value == "" ? errorSubsistema.classList.add("campo_incorrecto") : errorSubsistema.classList.remove("campo_incorrecto");
+
+
+
+        if (e.isTrusted) {
+
+
+            const divpadre = document.getElementById("divpadre");
+
+            //convertimos en array la collecion que nos trae la clase campos-obligatorios
+            const ArraryImput = Array.prototype.slice.apply(document.querySelectorAll(".campos-obligatorios"));
+
+            //convertimos en array la collecion que nos trae la clase hijos
+            const hijos = Array.prototype.slice.apply(document.querySelectorAll(".hijos"));
+
+            console.log(hijos)
+
+
+            //aqui agregamos o quitamos cla clase error si el campo esta lleno o vacio
+            function agregarQuitar(e) {
+
+
+
+
+                // aqui decimos que cuando un campo obligatorio dispara el evento ejecute algo
+                if (e.target.classList.contains("campos-obligatorios")) {
+
+
+
+
+                    //obtenemos el index del campo que disparo el evento para asi saber a cual se le mostrara el error y acual se le quitara
+                    const Index = ArraryImput.indexOf(e.target);
+
+
+                    //aqui decimos si el campo que disparo el evento esta vacio agregale la clase error si esta lleno quitase
+
+                    e.target.value.trim() != "" ? hijos[Index].classList.remove("campo_incorrecto") : hijos[Index].classList.add("campo_incorrecto")
+
+
+
+
+
+
+
+                }
+
+            }
+
+
+            divpadre.addEventListener("keyup", agregarQuitar)
+
+
+        }
+
+
+        const alert_camposObligatorios = document.getElementById("alert_camposObligatorios");
+
+        if (mantenedor.value == "" || nombre.value == "" || funcion.value == "" || telefono.value == "" || subsistema.value == "") {
+
+
+
+            alert_camposObligatorios.classList.remove("alert-campos-obligatorios")
+
+        }
+        else {
+
+            alert_camposObligatorios.classList.add("alert-campos-obligatorios")
+
+            const url = "Mantenedores/CrearActualizar/mantenedores";
+
+            fetch(url, {
+
+                method: "POST",
+
+                headers: {
+
+                    'Content-Type': 'application/json'
+
+                },
+
+                body: JSON.stringify({
+
+
+                    mantenedor: mantenedor.value,
+                    nombre: nombre.value,
+                    funcion: funcion.value,
+                    telefono: telefono.value,
+                    extension: extension.value,
+                    radioTetra: radioTetra.value,
+                    subsistema: subsistema.value
+
+
+                })
+
+
+
+            })
+                .then(res => res.json())
+                .then(data => {
+
+                    if (data == 1) {
+                        // para que el modal se cierre automaticamente al agregar
+                        const btncerrar = document.getElementById("Mant_Btncerrar");
+                        btncerrar.click();
+
+                        if (btncerrar.click() == true) {
+
+                            console.log("klk cerrado")
+                        }
+
+                        //alerta cuando se agregar un nuevo mantenedor
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Se ha agregado correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+
+                        //para Limpiar los campos al agregarun nuevo registro
+
+                        document.getElementById("mantenedoragregar").value = "";
+                        document.getElementById("nombreagregar").value = "";
+                        document.getElementById("funcionagregar").value = "";
+                        document.getElementById("telefonoagregar").value = "";
+                        document.getElementById("extensionagregar").value = "";
+                        document.getElementById("radiotetraagregar").value = "";
+                        document.getElementById("subsistemaagregar").value = "";
+                        
+
+
+                        //para que refresque la tabla y nuestre lo nuevo que se agrego
+                        const urlmantenedor = "Mantenedores/Mantenedores";
+
+                        listarMantenedores(urlmantenedor);
+
+
+
+                    }
+
+                    else {
+
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Ocurrio algun error intentelo de nuevo',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                })
+
+
+        }
+
+
+
+
+
+    }
+
+    agregarMantenedor.addEventListener("submit", CrearMantenedor);
+
+
+
+
+
+    //=========================================================================//
+
+    //======================CRUD ELECTROMECANICA ==============================//
+
+
+
+
+
+    //--------------Listar Electromeanica------------------------//
+
+    function listarElectromecanica(url) {
+
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+
+                let tbodydata = document.getElementById("tbodydata");
+
+                let filas = "";
+
+
+                for (var i = 0; i < data.length; i++) {
+
+                    filas += `
+                        <tr>
+
+                            <td>${data[i].nombre}</td>
+                            <td>${data[i].telefono}</td>
+                            <td>${data[i].correo}</td>
+                            <td>${data[i].extension}</td>
+                            <td>${data[i].subsistema}</td>
+
+
+                            @if (User.IsInRole("Administrador"))
+                            {
+
+                                <td>
+
+                                     <!-- Button trigger modal -->
+                                   <a href="" onclick="buscarActualizar_elect(${data[i].id})" class="link-primary text-decoration-none"  data-bs-toggle="modal" data-bs-target="#modalActualizar_elect">Actualizar</a>
+
+                                </td>
+
+                                <td>
+
+                                    <a href="#" onclick="Eliminar_elect(${data[i].id})" class="link-danger text-decoration-none" >Eliminar</a>
+
+                                </td>
+
+
+                            }
+
+                        </tr>
+
+                    `
+
+
+                }
+
+                tbodydata.innerHTML = filas;
+
+
+            })
+
+
+    }
+
+
+
+
+
+    //------------------ Agregar  Electromecanica ---------------//
+
+    const agregarElectromecanica = document.getElementById("form_AgregarElectromecanico");
+
+    function CrearElectromecanica(e) {
+
+        e.preventDefault();
+
+
+        const nombre = document.getElementById("elect_nombreagregar");
+        const telefono = document.getElementById("elect_telefonoagregar");
+        const correo = document.getElementById("elect_correoagregar");
+        const extension = document.getElementById("elect_extensionagregar");
+        const subsistema = document.getElementById("elect_subsistemaagregar");
+
+
+
+        const errorNombre = document.getElementById("elect_error-nombre");
+        const errorTelefono = document.getElementById("elect_error-telefono");
+        const errorCorreo = document.getElementById("elect_error-correo");
+        const errorextension = document.getElementById("elect_error-extension");
+        const errorSubsistema = document.getElementById("elect_error-subsistema");
+
+
+
+
+
+        nombre.value == "" ? errorNombre.classList.add("campo_incorrecto") : errorNombre.classList.remove("campo_incorrecto");
+        telefono.value == "" ? errorTelefono.classList.add("campo_incorrecto") : errorTelefono.classList.remove("campo_incorrecto");
+        correo.value == "" ? errorCorreo.classList.add("campo_incorrecto") : errorCorreo.classList.remove("campo_incorrecto");
+        extension.value == "" ? errorextension.classList.add("campo_incorrecto") : errorextension.classList.remove("campo_incorrecto");
+        subsistema.value == "" ? errorSubsistema.classList.add("campo_incorrecto") : errorSubsistema.classList.remove("campo_incorrecto")
+
+
+
+
+        if (e.isTrusted) {
+
+
+            const divpadre = document.getElementById("elect_divpadre");
+
+            //convertimos en array la collecion que nos trae la clase campos-obligatorios
+            const ArraryImput = Array.prototype.slice.apply(document.querySelectorAll(".elect_campos-obligatorios"));
+
+            //convertimos en array la collecion que nos trae la clase hijos
+            const hijos = Array.prototype.slice.apply(document.querySelectorAll(".elect_hijos"));
+
+
+
+
+            //aqui agregamos o quitamos cla clase error si el campo esta lleno o vacio
+            function agregarQuitarelectromecanico(e) {
+
+
+
+
+                // aqui decimos que cuando un campo obligatorio dispara el evento ejecute algo
+                if (e.target.classList.contains("elect_campos-obligatorios")) {
+
+
+
+
+                    //obtenemos el index del campo que disparo el evento para asi saber a cual se le mostrara el error y acual se le quitara
+                    const Index = ArraryImput.indexOf(e.target);
+
+
+                    //aqui decimos si el campo que disparo el evento esta vacio agregale la clase error si esta lleno quitase
+
+                    e.target.value.trim() != "" ? hijos[Index].classList.remove("campo_incorrecto") : hijos[Index].classList.add("campo_incorrecto")
+
+
+                }
+
+            }
+
+
+            divpadre.addEventListener("keyup", agregarQuitarelectromecanico)
+
+
+        }
+
+
+        const alert_camposObligatorios= document.getElementById("electAlertActualizar_camposObligatorios");
+
+        console.log(alert_camposObligatorios);
+
+        if (nombre.value == "" || correo.value == "" || extension.value == "" || telefono.value == "" || subsistema.value == "") {
+
+
+
+            alert_camposObligatorios.classList.remove("alert-campos-obligatorios");
+
+        }
+        else {
+
+            alert_camposObligatorios.classList.add("alert-campos-obligatorios");
+
+            const url = "Electromecanico/CrearActualizar/electromecanica";
+
+            fetch(url, {
+
+                method: "POST",
+
+                headers: {
+
+                    'Content-Type': 'application/json'
+
+                },
+
+                body: JSON.stringify({
+
+
+
+                    nombre: nombre.value,
+                    telefono: telefono.value,
+                    correo: correo.value,
+                    extension: extension.value,
+                    subsistema: subsistema.value
+
+
+                })
+
+
+
+            })
+                .then(res => res.json())
+                .then(data => {
+
+                    if (data == 1) {
+                        // para que el modal se cierre automaticamente al agregar
+                        const elect_btncerrar = document.getElementById("elect_btncerrar");
+                        elect_btncerrar.click();
+
+
+
+                        //alerta cuando se agregar un nuevo mantenedor
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Se ha agregado correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+
+                        //para Limpiar los campos al agregarun nuevo registro
+
+                        document.getElementById("elect_nombreagregar").value ="";
+                        document.getElementById("elect_telefonoagregar").value = "";
+                        document.getElementById("elect_correoagregar").value = "";
+                        document.getElementById("elect_extensionagregar").value = "";
+                        document.getElementById("elect_subsistemaagregar").value ="";
+
+
+                        //para que refresque la tabla y nuestre lo nuevo que se agrego
+                        const url = "Electromecanica/Electromecanica";
+                        listarElectromecanica(url);
+
+
+
+                    }
+
+                    else {
+
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Ocurrio algun error intentelo de nuevo',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                })
+                .catch(e => alert(e + "fetchc agregar electromecanico"))
+
+
+        }
+
+
+
+
+
+    }
+
+    agregarElectromecanica.addEventListener("submit", CrearElectromecanica)
+
+
+
+    //------------------ buscar Electromecanico a actualizar ---------------//
+
+    function buscarActualizar_elect(id) {
+
+        const urlActualizar = "Electromecanico/BuscarElectromecanico/?id=" + id;
+
+        fetch(urlActualizar)
+            .then(res => res.json())
+            .then(data => {
+
+
+
+                const idelectomecanico = document.getElementById("elect_idactualizar");
+                const nombre = document.getElementById("elect_nombreactualizar");
+                const telefono = document.getElementById("elect_telefonoactualizar");
+                const correo = document.getElementById("elect_correoactualizar");
+                const extension = document.getElementById("elect_extensionactualizar");
+                const subsistema = document.getElementById("elect_subsistemaactualizar");
+
+
+                idelectomecanico.value = data.id;
+                nombre.value = data.nombre;
+                telefono.value = data.telefono;
+                correo.value = data.correo;
+                extension.value = data.extension;
+                subsistema.value = data.subsistema;
+
+            })
+            .catch(e => alert(e + "busar electromecanico"))
+
+
+
+    }
+
+
+
+    //------------------ Actualizar Electromecanico ---------------//
+
+    const actualizarElectromecanica = document.getElementById("form_ActualizarElectromecanico");
+
+    function EditarElectromecanica(e) {
+
+        e.preventDefault();
+
+        const idelectomecanico = Number( document.getElementById("elect_idactualizar").value);
+        const nombre = document.getElementById("elect_nombreactualizar").value;
+        const telefono = document.getElementById("elect_telefonoactualizar").value;
+        const correo = document.getElementById("elect_correoactualizar").value;
+        const extension = document.getElementById("elect_extensionactualizar").value;
+        const subsistema = document.getElementById("elect_subsistemaactualizar").value;
+
+        const url = "Electromecanico/CrearActualizar/electromecanica";
+
+        fetch(url, {
+
+            method: "POST",
+
+            headers: {
+
+                'Content-Type': 'application/json'
+
+            },
+
+            body: JSON.stringify({
+
+                id: idelectomecanico,
+                nombre: nombre,
+                telefono: telefono,
+                correo: correo,
+                extension: extension,
+                subsistema: subsistema
+
+            })
+
+
+
+        })
+            .then(res => res.json())
+            .then(data => {
+
+                if (data == 2) {
+                    // para que el modal se cierre automaticamente al actualizar
+                    const btncerrar = document.getElementById("Elect_btncerrar_actualizar");
+                    btncerrar.click();
+
+                    //alerta de actualizacion
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Se ha actualizado correctamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+
+
+                    //para que refresque la tabla y nuestre lo nuevo que se agrego
+                    const url = "Electromecanica/Electromecanica";
+                    listarElectromecanica(url);
+
+
+
+
+
+                }
+
+                else {
+
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Ocurrio algun error intentelo de nuevo',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+            })
+
+
+    }
+
+    actualizarElectromecanica.addEventListener("submit", EditarElectromecanica)
+
+
+
+    //------------------ Eliminar Electromecanica ---------------//
+
+    function Eliminar_elect(id) {
+
+
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: "No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!'
+
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+                const urlEliminar ="Electromecanico/EliminarElectromecanica/?id=" + id;
+
+                fetch(urlEliminar)
+                    .then(res => res.json())
+                    .then(data => {
+
+                        if (data == 1) {
+
+                            const url = "Electromecanica/Electromecanica";
+                            listarElectromecanica(url);;
+
+
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Su registro ha sido eliminado',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+
+
+
+                        }
+                        else {
+
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Ocurrio algun error y el registro no pudo ser eliminado',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+
+
+
+                    })
+                    .catch(e => console.log(e +"soy el catch de eliminar electromecanica"))
+
+
+            }
+        })
+
+
+
+    }
+
+
+    // funcion para que al hacer click en el boton cerrar del modal se limpien los campos y las alertas
+    //esta funcion pertenece al modal de crear Electromecanica
+    const ElectBtncerrar = document.getElementById("elect_btncerrar")
+    ElectBtncerrar.addEventListener("click", () => {
+
+
+        document.getElementById("elect_nombreagregar").value ="";
+        document.getElementById("elect_telefonoagregar").value ="";
+        document.getElementById("elect_correoagregar").value ="";
+        document.getElementById("elect_extensionagregar").value="";
+        document.getElementById("elect_subsistemaagregar").value = "";
+
+
+
+        document.getElementById("electAlertActualizar_camposObligatorios").classList.add("alert-campos-obligatorios");;
+
+
+        document.getElementById("elect_error-nombre").classList.remove("campo_incorrecto");
+        document.getElementById("elect_error-telefono").classList.remove("campo_incorrecto");
+        document.getElementById("elect_error-correo").classList.remove("campo_incorrecto");
+        document.getElementById("elect_error-extension").classList.remove("campo_incorrecto");
+        document.getElementById("elect_error-subsistema").classList.remove("campo_incorrecto");
+
+        
+        
+        
+        
+        
+        
+
+
+    })
+
+
+
+</script>
+

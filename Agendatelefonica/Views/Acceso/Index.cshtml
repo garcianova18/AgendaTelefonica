@@ -1,0 +1,106 @@
+﻿@using Agendatelefonica.ViewModels
+@model UsuariosView;
+@{
+     Layout = null;
+    ViewData["Title"] = "Index";
+   
+}
+<!DOCTYPE html>
+<html lang="es">
+    
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&family=Roboto:wght@300;900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c6f899d35a.js" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="~/css/form-login.css" />
+    <link rel="icon" href="/img/icono-agenda.png">
+    <title>AgendaTelefonica</title>
+
+</head>
+
+<body>
+
+ <div class="container-fluid contenedor-imgfondo">
+
+
+    <div class="row min-vh-100 justify-content-center align-items-center ">
+
+
+
+      <div class="col-sm-8 col-md-6 col-lg-4 columna-bacground  p-5 pt-0">
+
+
+        <!------------contenedor para la imagen----------->
+
+        <div class="d-flex justify-content-center mb-3 pb-5">
+
+          <div class="imagen-logo">
+
+            <img src="/img/logo.png"  />
+
+          </div>
+        </div>
+
+         
+        <!------------ formulario----------->
+
+        <form asp-action="Login" asp-controller="Acceso" method="post">
+
+
+            <!------------caja usuario----------->
+
+            <div class="mb-4">
+
+                <label class="form-label text-white">Usuario</label>
+                <input asp-for="UserName" class=" ss form-control" autofocus>
+
+            </div>
+
+            <!------------caja contrasena----------->
+            <div class="mb-5">
+
+                <label class="form-label text-white">Contraseña</label>
+                <input type="password" asp-for="Password" class=" ss form-control ">
+
+            </div>
+
+
+
+            <!-- caja boton-->
+
+            <div class="d-flex justify-content-center mb-2">
+
+                <input type="submit" class="btn btn-success" value="Iniciar seccion" />
+            </div>
+
+            <!--Error si el usuario o contrasena no son validos-->
+            @if (@ViewBag.errorusuario!="")
+            {
+
+        <div class="text-danger">
+
+            @ViewBag.errorusuario
+
+        </div>
+
+            }
+
+        </form>
+          
+       
+    </div>
+  </div>
+
+</div>
+        </body>
+
+   
+    
+ </html>
+
+
