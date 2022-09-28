@@ -20,8 +20,4 @@
     <Folder Include="Views\Mantenedores\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="wwwroot\js\site.js" />
-  </ItemGroup>
-
 </Project>
