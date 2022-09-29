@@ -24,10 +24,7 @@ namespace Agendatelefonica.Controllers
             this.mapper = mapper;
             this.hubContext = hubContext;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+      
 
 
         public async Task<IActionResult> CrearEditarEstaciones([FromBody] EstacionesView estacionesView)
