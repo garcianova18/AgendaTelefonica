@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
+using Agendatelefonica.Services;
 
 namespace Agendatelefonica.Controllers
 {
@@ -17,15 +18,19 @@ namespace Agendatelefonica.Controllers
     [Authorize]
     public class ElectromecanicaController : Controller
     {
+        private readonly IRepositoryElectromecanica repositoryElectromecanica;
         private readonly AgendatelefonicaContext context;
         private readonly IMapper mapper;
         private readonly IHubContext<agendaHub> hubContext;
+        
 
-        public ElectromecanicaController(AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext)
+        public ElectromecanicaController(IRepositoryElectromecanica repositoryElectromecanica, AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext)
         {
+            this.repositoryElectromecanica = repositoryElectromecanica;
             this.context = context;
             this.mapper = mapper;
             this.hubContext = hubContext;
+           
         }
         public IActionResult Index()
         {
@@ -35,24 +40,33 @@ namespace Agendatelefonica.Controllers
 
         //==================Area de Listar todos ============================
 
-        public JsonResult Electromecanica(string electromecanico)
+        public async Task<IEnumerable< ElectromecanicaView>>Electromecanica(string electromecanico)
         {
 
 
             //para evitarnos estar mapeando las propiedades de Electromecanica a ElectromecanicaView usamos ProjectTo de automapper que lo hace automatico
-            var electromecanica = context.Electromecanicas.ProjectTo<ElectromecanicaView>(mapper.ConfigurationProvider);
+            //var electromecanica = context.Electromecanicas.ProjectTo<ElectromecanicaView>(mapper.ConfigurationProvider);
+
+            var electromecanica = await repositoryElectromecanica.GetAll();
 
             if (electromecanico != null)
             {
                 electromecanica = electromecanica.Where(n => n.Nombre.Contains(electromecanico.Trim()) || n.Telefono.Contains(electromecanico.Trim()) || n.Correo.Contains(electromecanico.Trim()) || n.Extension.Contains(electromecanico.Trim()) || n.Subsistema.Contains(electromecanico.Trim()));
             }
 
-            return Json(electromecanica.OrderBy(n => n.Nombre));
+            return electromecanica;
 
 
         }
 
-        public JsonResult Mantenedores(string mantenedor)
+        public ActionResult<int > klk()
+        {
+
+
+            return 5;
+        }
+
+        public IEnumerable Mantenedores(string mantenedor)
         {
             var mantenedores = context.Mantenedores.ProjectTo<MantenedoresView>(mapper.ConfigurationProvider);
 
@@ -64,7 +78,7 @@ namespace Agendatelefonica.Controllers
 
 
 
-            return Json(mantenedores.OrderBy(m => m.Mantenedor));
+            return mantenedores.OrderBy(m => m.Mantenedor);
         }
 
         public JsonResult Estaciones(string estacion)

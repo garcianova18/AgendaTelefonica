@@ -7,6 +7,7 @@ using Agendatelefonica.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Agendatelefonica.Controllers;
+using Agendatelefonica.Services;
 
 namespace Agendatelefonica
 {
@@ -24,6 +25,7 @@ namespace Agendatelefonica
         {
             services.AddControllersWithViews();
 
+            services.AddScoped<IRepositoryElectromecanica, RepositoryElectromecanica>();
 
             services.AddDbContext<AgendatelefonicaContext>(opciones => opciones.UseSqlServer(Configuration.GetConnectionString("connexion")));
 
@@ -41,6 +43,8 @@ namespace Agendatelefonica
                });
 
             services.AddSignalR();
+
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
