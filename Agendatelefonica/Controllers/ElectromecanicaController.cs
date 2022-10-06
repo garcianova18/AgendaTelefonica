@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.SignalR;
 using Agendatelefonica.Services;
 
 namespace Agendatelefonica.Controllers
+
 {
 
     [Authorize]
@@ -59,14 +60,8 @@ namespace Agendatelefonica.Controllers
 
         }
 
-        public ActionResult<int > klk()
-        {
-
-
-            return 5;
-        }
-
-        public IEnumerable Mantenedores(string mantenedor)
+       
+        public IEnumerable<MantenedoresView> Mantenedores(string mantenedor)
         {
             var mantenedores = context.Mantenedores.ProjectTo<MantenedoresView>(mapper.ConfigurationProvider);
 
@@ -147,11 +142,8 @@ namespace Agendatelefonica.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var mapperElectromecanico = mapper.Map<Electromecanica>(electromecanica);
+                    var electromewcanico = repositoryElectromecanica.Create(electromecanica);
                     
-
-                    context.Add(mapperElectromecanico);
-                   await context.SaveChangesAsync();
                    await hubContext.Clients.All.SendAsync("recibir");
 
                     return Ok(1);

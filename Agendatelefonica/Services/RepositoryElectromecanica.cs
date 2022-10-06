@@ -20,16 +20,29 @@ namespace Agendatelefonica.Services
             this.context = context;
             this.mapper = mapper;
         }
+
+        public async Task<int> Create(ElectromecanicaView electromecanica)
+        {
+            var electromecanico = mapper.Map<Electromecanica>(electromecanica);
+
+            context.Add(electromecanico);
+
+            await context.SaveChangesAsync();
+
+            return 1;
+        }
+
+
         public async Task<IEnumerable<ElectromecanicaView>> GetAll()
         {
             var electromecanico = await context.Electromecanicas.ToListAsync();
 
             var mapElectromecanico = mapper.Map<List<ElectromecanicaView>>(electromecanico);
 
-
+               
             return mapElectromecanico;
         }
 
-        
+       
     }
 }

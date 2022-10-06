@@ -11,5 +11,7 @@ namespace Agendatelefonica.Services
     {
 
         Task<IEnumerable<ElectromecanicaView>> GetAll();
+        Task<int> Create(ElectromecanicaView electromecanica);
+       
     }
 }
