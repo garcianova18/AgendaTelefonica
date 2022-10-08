@@ -50,12 +50,14 @@ namespace Agendatelefonica.Controllers
 
             var electromecanica = await repositoryElectromecanica.GetAll();
 
+            var mapElectromecanica = mapper.Map<IEnumerable<ElectromecanicaView>>(electromecanica);
+
             if (electromecanico != null)
             {
-                electromecanica = electromecanica.Where(n => n.Nombre.Contains(electromecanico.Trim()) || n.Telefono.Contains(electromecanico.Trim()) || n.Correo.Contains(electromecanico.Trim()) || n.Extension.Contains(electromecanico.Trim()) || n.Subsistema.Contains(electromecanico.Trim()));
+                mapElectromecanica = mapElectromecanica.Where(n => n.Nombre.Contains(electromecanico.Trim()) || n.Telefono.Contains(electromecanico.Trim()) || n.Correo.Contains(electromecanico.Trim()) || n.Extension.Contains(electromecanico.Trim()) || n.Subsistema.Contains(electromecanico.Trim()));
             }
 
-            return electromecanica;
+            return mapElectromecanica;
 
 
         }
@@ -144,7 +146,10 @@ namespace Agendatelefonica.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var electromecanicaCreate = await repositoryElectromecanica.Create(electromecanica);
+                    var mapElectromecanica = mapper.Map<Electromecanica>(electromecanica);
+
+                    var electromecanicaCreate = await repositoryElectromecanica.Create(mapElectromecanica);
+
                     await hubContext.Clients.All.SendAsync("recibir");
 
                     return Ok(electromecanicaCreate);
@@ -155,11 +160,15 @@ namespace Agendatelefonica.Controllers
             }
             else
             {
+                //Actualizar
 
                 if (ModelState.IsValid)
                 {
 
-                    var electromecanicaUpdate = await repositoryElectromecanica.update(electromecanica);
+                    var mapElectromecanica = mapper.Map<Electromecanica>(electromecanica);
+
+                    var electromecanicaUpdate = await repositoryElectromecanica.update(mapElectromecanica);
+
                     await hubContext.Clients.All.SendAsync("recibir");
 
                     return Ok(electromecanicaUpdate);
@@ -176,23 +185,26 @@ namespace Agendatelefonica.Controllers
         }
 
         
-        public async Task<JsonResult> BuscarElectromecanico(int? id)
+        public async Task<ActionResult> BuscarElectromecanico(int? id)
         {
 
 
             if (id == null || id == 0)
             {
-                return Json(0);
+                return Ok(0);
             }
+
 
             var electromecanico = await repositoryElectromecanica.GetById(id);
 
-            if (electromecanico == null)
+            var mapElectromecanica = mapper.Map<ElectromecanicaView>(electromecanico);
+
+            if (mapElectromecanica == null)
             {
-                return Json(0);
+                return Ok(0);
             }
 
-            return Json(electromecanico);
+            return Ok(mapElectromecanica);
 
 
 
@@ -200,36 +212,34 @@ namespace Agendatelefonica.Controllers
 
 
 
-        public async Task<JsonResult> EliminarElectromecanica(int? id)
+        public async Task<ActionResult> EliminarElectromecanica(int? id)
         {
 
 
             if (id == null || id == 0)
             {
-                return Json(0);
+                return Ok(0);
             }
 
             var electromecanico = await repositoryElectromecanica.GetById(id);
 
             if (electromecanico == null)
             {
-                return Json(0);
+                return Ok(0);
             }
-            var mapElectromecanica = mapper.Map<Electromecanica>(electromecanico);
+          
 
-            var electromecanicaDelete = await repositoryElectromecanica.Delete(mapElectromecanica);
+            var electromecanicaDelete = await repositoryElectromecanica.Delete(electromecanico);
             
            
             await hubContext.Clients.All.SendAsync("recibir");
 
-            return Json(electromecanicaDelete);
+            return Ok(electromecanicaDelete);
 
 
 
         }
 
-
        
-
     }
 }
