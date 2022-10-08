@@ -13,66 +13,60 @@ namespace Agendatelefonica.Services
     public class RepositoryElectromecanica : IRepositoryElectromecanica
     {
         private readonly AgendatelefonicaContext context;
-        private readonly IMapper mapper;
+     
 
-        public RepositoryElectromecanica( AgendatelefonicaContext context, IMapper mapper)
+        public RepositoryElectromecanica( AgendatelefonicaContext context)
         {
             this.context = context;
-            this.mapper = mapper;
+           
         }
 
-        public async Task<int> Create(ElectromecanicaView electromecanica)
-        {
-            var mapElectromecanica = mapper.Map<Electromecanica>(electromecanica);
+        
 
-            context.Add(mapElectromecanica);
+
+        public async Task<IEnumerable<Electromecanica>> GetAll()
+        {
+            var electromecanico = await context.Electromecanicas.ToListAsync();
+
+            return electromecanico;
+        }
+
+        public async Task<Electromecanica> GetById(int? id)
+        {
+            var obtenerelectromecanico = await context.Electromecanicas.FindAsync(id);
+
+            return obtenerelectromecanico;
+
+        }
+        public async Task<int> Create(Electromecanica electromecanica)
+        {
+
+
+            context.Add(electromecanica);
             await context.SaveChangesAsync();
 
             return 1;
         }
-
-        public async Task<int> Delete(Electromecanica electromecanica )
+        public async Task<int> update(Electromecanica electromecanica)
         {
-         
-       
+           
+
+            context.Update(electromecanica);
+            await context.SaveChangesAsync();
+
+            return 2;
+        }
+
+        public async Task<int> Delete(Electromecanica electromecanica)
+        {
+
+
             context.Remove(electromecanica);
             await context.SaveChangesAsync();
 
             return 1;
 
-           
-        }
 
- 
-
-        public async Task<IEnumerable<ElectromecanicaView>> GetAll()
-        {
-            var electromecanico = await context.Electromecanicas.ToListAsync();
-
-            var mapElectromecanico = mapper.Map<List<ElectromecanicaView>>(electromecanico);
-
-
-            return mapElectromecanico;
-        }
-
-        public async Task<ElectromecanicaView> GetById(int? id)
-        {
-            var obtenerelectromecanico = await context.Electromecanicas.FindAsync(id);
-
-            var mapElectromecanica = mapper.Map<ElectromecanicaView>(obtenerelectromecanico);
-
-            return mapElectromecanica;
-
-        }
-
-        public async Task<int> update(ElectromecanicaView electromecanica)
-        {
-           var mapElectromecanica = mapper.Map<Electromecanica>(electromecanica);
-
-            context.Update(mapElectromecanica);
-            await context.SaveChangesAsync();
-
-            return 2;
         }
     }
 }

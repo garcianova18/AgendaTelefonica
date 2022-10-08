@@ -10,10 +10,10 @@ namespace Agendatelefonica.Services
    public interface IRepositoryElectromecanica
     {
 
-        Task<IEnumerable<ElectromecanicaView>> GetAll();
-        Task<int> Create(ElectromecanicaView electromecanica);
-        Task<int> update(ElectromecanicaView electromecanica);
-        Task<ElectromecanicaView> GetById(int? id);
+        Task<IEnumerable<Electromecanica>> GetAll();
+        Task<int> Create(Electromecanica electromecanica);
+        Task<int> update(Electromecanica electromecanica);
+        Task<Electromecanica> GetById(int? id);
         Task<int> Delete(Electromecanica electromecanica);
     }
 }
