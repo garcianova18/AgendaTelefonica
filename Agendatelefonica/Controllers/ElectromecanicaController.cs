@@ -63,8 +63,6 @@ namespace Agendatelefonica.Controllers
         {
 
 
-            return 5;
-        }
 
         public IEnumerable Mantenedores(string mantenedor)
         {
