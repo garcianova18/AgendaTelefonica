@@ -11,6 +11,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
 using Agendatelefonica.Services;
+using System.Collections;
 
 namespace Agendatelefonica.Controllers
 {
@@ -59,10 +60,8 @@ namespace Agendatelefonica.Controllers
 
         }
 
-        public ActionResult<int > klk()
-        {
-
-
+       
+       
 
         public IEnumerable Mantenedores(string mantenedor)
         {
@@ -145,14 +144,10 @@ namespace Agendatelefonica.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var mapperElectromecanico = mapper.Map<Electromecanica>(electromecanica);
-                    
+                    var electromecanicaCreate = await repositoryElectromecanica.Create(electromecanica);
+                    await hubContext.Clients.All.SendAsync("recibir");
 
-                    context.Add(mapperElectromecanico);
-                   await context.SaveChangesAsync();
-                   await hubContext.Clients.All.SendAsync("recibir");
-
-                    return Ok(1);
+                    return Ok(electromecanicaCreate);
 
                 }
 
@@ -164,13 +159,10 @@ namespace Agendatelefonica.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    var mapperElectromecanico = mapper.Map<Electromecanica>(electromecanica);
-
-                    context.Update(mapperElectromecanico);
-                    await context.SaveChangesAsync();
+                    var electromecanicaUpdate = await repositoryElectromecanica.update(electromecanica);
                     await hubContext.Clients.All.SendAsync("recibir");
 
-                    return Ok(2);
+                    return Ok(electromecanicaUpdate);
 
                 }
 
@@ -193,7 +185,7 @@ namespace Agendatelefonica.Controllers
                 return Json(0);
             }
 
-            var electromecanico = await context.Electromecanicas.FindAsync(id);
+            var electromecanico = await repositoryElectromecanica.GetById(id);
 
             if (electromecanico == null)
             {
@@ -217,18 +209,20 @@ namespace Agendatelefonica.Controllers
                 return Json(0);
             }
 
-            var electromecanico = await context.Electromecanicas.FindAsync(id);
+            var electromecanico = await repositoryElectromecanica.GetById(id);
 
             if (electromecanico == null)
             {
                 return Json(0);
             }
+            var mapElectromecanica = mapper.Map<Electromecanica>(electromecanico);
 
-            context.Remove(electromecanico);
-            await context.SaveChangesAsync();
+            var electromecanicaDelete = await repositoryElectromecanica.Delete(mapElectromecanica);
+            
+           
             await hubContext.Clients.All.SendAsync("recibir");
 
-            return Json(1);
+            return Json(electromecanicaDelete);
 
 
 

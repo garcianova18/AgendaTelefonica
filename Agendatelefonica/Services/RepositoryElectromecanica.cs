@@ -20,6 +20,31 @@ namespace Agendatelefonica.Services
             this.context = context;
             this.mapper = mapper;
         }
+
+        public async Task<int> Create(ElectromecanicaView electromecanica)
+        {
+            var mapElectromecanica = mapper.Map<Electromecanica>(electromecanica);
+
+            context.Add(mapElectromecanica);
+            await context.SaveChangesAsync();
+
+            return 1;
+        }
+
+        public async Task<int> Delete(Electromecanica electromecanica )
+        {
+         
+       
+            context.Remove(electromecanica);
+            await context.SaveChangesAsync();
+
+            return 1;
+
+           
+        }
+
+ 
+
         public async Task<IEnumerable<ElectromecanicaView>> GetAll()
         {
             var electromecanico = await context.Electromecanicas.ToListAsync();
@@ -30,6 +55,24 @@ namespace Agendatelefonica.Services
             return mapElectromecanico;
         }
 
-        
+        public async Task<ElectromecanicaView> GetById(int? id)
+        {
+            var obtenerelectromecanico = await context.Electromecanicas.FindAsync(id);
+
+            var mapElectromecanica = mapper.Map<ElectromecanicaView>(obtenerelectromecanico);
+
+            return mapElectromecanica;
+
+        }
+
+        public async Task<int> update(ElectromecanicaView electromecanica)
+        {
+           var mapElectromecanica = mapper.Map<Electromecanica>(electromecanica);
+
+            context.Update(mapElectromecanica);
+            await context.SaveChangesAsync();
+
+            return 2;
+        }
     }
 }
