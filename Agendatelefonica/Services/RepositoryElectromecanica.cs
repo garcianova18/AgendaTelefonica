@@ -22,8 +22,6 @@ namespace Agendatelefonica.Services
         }
 
         
-
-
         public async Task<IEnumerable<Electromecanica>> GetAll()
         {
             var electromecanico = await context.Electromecanicas.ToListAsync();
