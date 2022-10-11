@@ -26,6 +26,7 @@ namespace Agendatelefonica
             services.AddControllersWithViews();
 
             services.AddScoped<IRepositoryElectromecanica, RepositoryElectromecanica>();
+            services.AddScoped(typeof(IRepositoryGenerico<>), typeof(RepositoryGenerico<>));
 
             services.AddDbContext<AgendatelefonicaContext>(opciones => opciones.UseSqlServer(Configuration.GetConnectionString("connexion")));
 
