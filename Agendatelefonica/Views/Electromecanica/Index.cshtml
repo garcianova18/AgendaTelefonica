@@ -3541,6 +3541,7 @@
     <script src="~/js/Mantenedores.js"></script>
     <script src="~/js/Estaciones.js"></script>
     <script src="~/js/Usuarios.js"></script>
+    <script src="~/js/Conexion_SignalR.js"></script>
 
 
 
@@ -3555,20 +3556,7 @@
 
 
 
-    //crear la conexion con signalR
-
-    var conexion = new signalR.HubConnectionBuilder().withUrl("/agendaHud").build();
-
-    //conexion.start().then(function () {
-    //    console.log("conexion exitosa")
-    //}).catch(error => console.log(error));
-
-    //inicar la conecion con signalR
-    conexion.start();
-
-    // Recibir los eventos y enviarselo a todos los usuarios conectados al Hub
-    conexion.on("recibir",() => listarTodos());
-
+    
 
    //===========se ejecutan despues de que la ventana haya cargado todo el documento html
 

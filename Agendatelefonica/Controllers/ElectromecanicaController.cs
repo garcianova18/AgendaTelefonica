@@ -23,14 +23,16 @@ namespace Agendatelefonica.Controllers
         private readonly AgendatelefonicaContext context;
         private readonly IMapper mapper;
         private readonly IHubContext<agendaHub> hubContext;
+        private readonly IRepositoryGenerico<Electromecanica> repositoryGenerico;
         
 
-        public ElectromecanicaController(IRepositoryElectromecanica repositoryElectromecanica, AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext)
+        public ElectromecanicaController(IRepositoryElectromecanica repositoryElectromecanica, AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext, IRepositoryGenerico<Electromecanica> repositoryGenerico)
         {
             this.repositoryElectromecanica = repositoryElectromecanica;
             this.context = context;
             this.mapper = mapper;
             this.hubContext = hubContext;
+            this.repositoryGenerico = repositoryGenerico;
            
         }
         public IActionResult Index()
@@ -48,7 +50,8 @@ namespace Agendatelefonica.Controllers
             //para evitarnos estar mapeando las propiedades de Electromecanica a ElectromecanicaView usamos ProjectTo de automapper que lo hace automatico
             //var electromecanica = context.Electromecanicas.ProjectTo<ElectromecanicaView>(mapper.ConfigurationProvider);
 
-            var electromecanica = await repositoryElectromecanica.GetAll();
+            //var electromecanica = await repositoryElectromecanica.GetAll();
+              var electromecanica =  await repositoryGenerico.GetAll();
 
             var mapElectromecanica = mapper.Map<IEnumerable<ElectromecanicaView>>(electromecanica);
 
@@ -148,7 +151,9 @@ namespace Agendatelefonica.Controllers
                 {
                     var mapElectromecanica = mapper.Map<Electromecanica>(electromecanica);
 
-                    var electromecanicaCreate = await repositoryElectromecanica.Create(mapElectromecanica);
+                    //var electromecanicaCreate = await repositoryElectromecanica.Create(mapElectromecanica);
+
+                    var electromecanicaCreate = await repositoryGenerico.Create(mapElectromecanica);
 
                     await hubContext.Clients.All.SendAsync("recibir");
 
@@ -167,7 +172,9 @@ namespace Agendatelefonica.Controllers
 
                     var mapElectromecanica = mapper.Map<Electromecanica>(electromecanica);
 
-                    var electromecanicaUpdate = await repositoryElectromecanica.update(mapElectromecanica);
+                    //var electromecanicaUpdate = await repositoryElectromecanica.update(mapElectromecanica);
+
+                    var electromecanicaUpdate = await repositoryGenerico.update(mapElectromecanica);
 
                     await hubContext.Clients.All.SendAsync("recibir");
 
@@ -195,7 +202,9 @@ namespace Agendatelefonica.Controllers
             }
 
 
-            var electromecanico = await repositoryElectromecanica.GetById(id);
+            //var electromecanico = await repositoryElectromecanica.GetById(id);
+
+            var electromecanico = await repositoryGenerico.GetById(id);
 
             var mapElectromecanica = mapper.Map<ElectromecanicaView>(electromecanico);
 
@@ -221,17 +230,20 @@ namespace Agendatelefonica.Controllers
                 return Ok(0);
             }
 
-            var electromecanico = await repositoryElectromecanica.GetById(id);
+            //var electromecanico = await repositoryElectromecanica.GetById(id);
+
+            var electromecanico = await repositoryGenerico.GetById(id);
 
             if (electromecanico == null)
             {
                 return Ok(0);
             }
-          
 
-            var electromecanicaDelete = await repositoryElectromecanica.Delete(electromecanico);
-            
-           
+
+            //var electromecanicaDelete = await repositoryElectromecanica.Delete(electromecanico);
+
+            var electromecanicaDelete = await repositoryGenerico.Delete(electromecanico);
+
             await hubContext.Clients.All.SendAsync("recibir");
 
             return Ok(electromecanicaDelete);
