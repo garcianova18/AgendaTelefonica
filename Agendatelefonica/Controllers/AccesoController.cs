@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Agendatelefonica.Controllers;
 
 namespace gesin_app.Controllers  
 {
@@ -74,8 +75,6 @@ namespace gesin_app.Controllers
             }
         }
 
-
-          
 
         public async Task< IActionResult > Logout()
         {

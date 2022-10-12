@@ -1,12 +1,9 @@
 ﻿using Agendatelefonica.Models;
+using Agendatelefonica.Services;
 using Agendatelefonica.ViewModels;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Agendatelefonica.Controllers
@@ -14,20 +11,21 @@ namespace Agendatelefonica.Controllers
     public class EstacionesController : Controller
     {
 
-        private readonly AgendatelefonicaContext context;
+        
         private readonly IMapper mapper;
         private readonly IHubContext<agendaHub> hubContext;
-
-        public EstacionesController(AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext)
+        private readonly IRepositoryGenerico<Estacione> repositoryGenerico; 
+        public EstacionesController( IMapper mapper, IHubContext<agendaHub> hubContext,IRepositoryGenerico<Estacione> repositoryGenerico)
         {
-            this.context = context;
+           
             this.mapper = mapper;
             this.hubContext = hubContext;
+            this.repositoryGenerico = repositoryGenerico;
         }
       
 
 
-        public async Task<IActionResult> CrearEditarEstaciones([FromBody] EstacionesView estacionesView)
+        public async Task<ActionResult<int>> CrearEditarEstaciones([FromBody] EstacionesView estacionesView)
         {
             if (estacionesView.Id == 0)
             {
@@ -36,17 +34,16 @@ namespace Agendatelefonica.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    var estacion = mapper.Map<Estacione>(estacionesView);
+                    var mapEstacion = mapper.Map<Estacione>(estacionesView);
 
 
+                   var estaconCreate = await repositoryGenerico.Create(mapEstacion);
                     
-                    context.Add(estacion);
-                    await context.SaveChangesAsync();
                     await hubContext.Clients.All.SendAsync("recibir");
 
 
 
-                    return Ok(1);
+                    return estaconCreate;
                 }
 
             }
@@ -57,35 +54,38 @@ namespace Agendatelefonica.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var estacion = mapper.Map<Estacione>(estacionesView);
+                    var mapEstacion = mapper.Map<Estacione>(estacionesView);
 
 
-                    context.Update(estacion);
-                    await context.SaveChangesAsync();
+                    var estacionUpdate =await repositoryGenerico.update(mapEstacion);
+                   
                     await hubContext.Clients.All.SendAsync("recibir");
-                    return Ok(2);
+
+                    return estacionUpdate;
                 }
             }
 
 
-            return Ok(0);
+            return 0;
         }
 
-        public async Task<IActionResult> buscarEstacion(int? id)
+        public async Task<ActionResult<EstacionesView>> buscarEstacion(int? id)
         {
 
             if (id == 0 || id == null)
             {
                 return Ok(0);
             }
-            var buscarestacion = await context.Estaciones.FindAsync(id);
+            var estacion = await repositoryGenerico.GetById(id);
 
-            if (buscarestacion == null)
+            if (estacion == null)
             {
                 return Ok(0);
             }
 
-            return Json(buscarestacion);
+            var mapEstacion = mapper.Map<EstacionesView>(estacion);
+
+            return mapEstacion;
 
         }
 
@@ -97,7 +97,7 @@ namespace Agendatelefonica.Controllers
                 return 0;
             }
 
-            var estacion = await context.Estaciones.FindAsync(id);
+            var estacion = await repositoryGenerico.GetById(id);
 
 
             if (estacion == null)
@@ -105,11 +105,11 @@ namespace Agendatelefonica.Controllers
                 return 0;
             }
 
-            context.Remove(estacion);
-            await context.SaveChangesAsync();
+            var estacionDelete = await repositoryGenerico.Delete(estacion);
+
             await hubContext.Clients.All.SendAsync("recibir");
 
-            return 1;
+            return estacionDelete;
         }
     }
 }

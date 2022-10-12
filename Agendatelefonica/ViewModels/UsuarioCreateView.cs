@@ -1,25 +1,31 @@
-﻿using Agendatelefonica.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Agendatelefonica.ViewModels
 {
-    public class UsuarioView
+    public class UsuarioCreateView
     {
-
         public int Id { get; set; }
+
+        [Required]
         public string Nombre { get; set; }
+        [Required]
         public string Apellido { get; set; }
 
-        public string FullName { get { return Nombre + Apellido; } }
+        [Required]
         public string Codigo { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public int IdRol { get; set; }
-        public DateTime? Fecha { get; set; }
 
-        public virtual Rol IdRolNavigation { get; set; }
+        [Required]
+        public string UserName { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+
+        [Required]
+        public int IdRol { get; set; }
+
+      
+
+       
+
     }
 }

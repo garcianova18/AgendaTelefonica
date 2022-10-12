@@ -19,18 +19,20 @@ namespace Agendatelefonica.Controllers
     [Authorize]
     public class ElectromecanicaController : Controller
     {
-        private readonly IRepositoryElectromecanica repositoryElectromecanica;
+       
         private readonly AgendatelefonicaContext context;
         private readonly IMapper mapper;
         private readonly IHubContext<agendaHub> hubContext;
-        
+        private readonly IRepositoryGenerico<Electromecanica> repositoryGenerico;
 
-        public ElectromecanicaController(IRepositoryElectromecanica repositoryElectromecanica, AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext)
+        
+        public ElectromecanicaController(AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext, IRepositoryGenerico<Electromecanica> repositoryGenerico)
         {
-            this.repositoryElectromecanica = repositoryElectromecanica;
+           
             this.context = context;
             this.mapper = mapper;
             this.hubContext = hubContext;
+            this.repositoryGenerico = repositoryGenerico;
            
         }
         public IActionResult Index()
@@ -45,22 +47,23 @@ namespace Agendatelefonica.Controllers
         {
 
 
+
+            var electromecanica = await repositoryGenerico.GetAll();
+
             //para evitarnos estar mapeando las propiedades de Electromecanica a ElectromecanicaView usamos ProjectTo de automapper que lo hace automatico
-            //var electromecanica = context.Electromecanicas.ProjectTo<ElectromecanicaView>(mapper.ConfigurationProvider);
+            var mapElectromecanica = context.Electromecanicas.ProjectTo<ElectromecanicaView>(mapper.ConfigurationProvider);
 
-            var electromecanica = await repositoryElectromecanica.GetAll();
-
+          
             if (electromecanico != null)
             {
-                electromecanica = electromecanica.Where(n => n.Nombre.Contains(electromecanico.Trim()) || n.Telefono.Contains(electromecanico.Trim()) || n.Correo.Contains(electromecanico.Trim()) || n.Extension.Contains(electromecanico.Trim()) || n.Subsistema.Contains(electromecanico.Trim()));
+                mapElectromecanica = mapElectromecanica.Where(n => n.Nombre.Contains(electromecanico.Trim()) || n.Telefono.Contains(electromecanico.Trim()) || n.Correo.Contains(electromecanico.Trim()) || n.Extension.Contains(electromecanico.Trim()) || n.Subsistema.Contains(electromecanico.Trim()));
             }
 
-            return electromecanica;
+            return mapElectromecanica;
 
 
         }
 
-       
        
 
         public IEnumerable Mantenedores(string mantenedor)
@@ -137,17 +140,21 @@ namespace Agendatelefonica.Controllers
         //==================CRUD de electromecanica============================
 
 
-        public async Task< IActionResult >CrearActualizar([FromBody] ElectromecanicaView electromecanica)
+        public async Task<ActionResult<int>>CrearActualizar([FromBody] ElectromecanicaView electromecanica)
         {
             //crear
             if (electromecanica.Id== 0)
             {
                 if (ModelState.IsValid)
                 {
-                    var electromecanicaCreate = await repositoryElectromecanica.Create(electromecanica);
+                    var mapElectromecanica = mapper.Map<Electromecanica>(electromecanica);
+
+
+                    var electromecanicaCreate = await repositoryGenerico.Create(mapElectromecanica);
+
                     await hubContext.Clients.All.SendAsync("recibir");
 
-                    return Ok(electromecanicaCreate);
+                    return electromecanicaCreate;
 
                 }
 
@@ -155,81 +162,88 @@ namespace Agendatelefonica.Controllers
             }
             else
             {
+                //Actualizar
 
                 if (ModelState.IsValid)
                 {
 
-                    var electromecanicaUpdate = await repositoryElectromecanica.update(electromecanica);
+                    var mapElectromecanica = mapper.Map<Electromecanica>(electromecanica);
+
+                    var electromecanicaUpdate = await repositoryGenerico.update(mapElectromecanica);
+
                     await hubContext.Clients.All.SendAsync("recibir");
 
-                    return Ok(electromecanicaUpdate);
+                    return electromecanicaUpdate;
 
                 }
 
             }
 
 
-
-
-
-            return Ok(0);
+            return 0;
         }
 
         
-        public async Task<JsonResult> BuscarElectromecanico(int? id)
+        public async Task<ActionResult<ElectromecanicaView>> BuscarElectromecanico(int? id)
         {
 
 
             if (id == null || id == 0)
             {
-                return Json(0);
+                return Ok(0);
             }
 
-            var electromecanico = await repositoryElectromecanica.GetById(id);
+            var electromecanico = await repositoryGenerico.GetById(id);
 
-            if (electromecanico == null)
+            var mapElectromecanica = mapper.Map<ElectromecanicaView>(electromecanico);
+
+            if (mapElectromecanica == null)
             {
-                return Json(0);
+                return Ok(0);
             }
 
-            return Json(electromecanico);
-
+            return mapElectromecanica;
 
 
         }
 
 
 
-        public async Task<JsonResult> EliminarElectromecanica(int? id)
+        public async Task<ActionResult<int>> EliminarElectromecanica(int? id)
         {
 
 
             if (id == null || id == 0)
             {
-                return Json(0);
+                return Ok(0);
             }
 
-            var electromecanico = await repositoryElectromecanica.GetById(id);
+            var electromecanico = await repositoryGenerico.GetById(id);
 
             if (electromecanico == null)
             {
-                return Json(0);
+                return Ok(0);
             }
-            var mapElectromecanica = mapper.Map<Electromecanica>(electromecanico);
 
-            var electromecanicaDelete = await repositoryElectromecanica.Delete(mapElectromecanica);
-            
-           
+            var electromecanicaDelete = await repositoryGenerico.Delete(electromecanico);
+
             await hubContext.Clients.All.SendAsync("recibir");
 
-            return Json(electromecanicaDelete);
+            return electromecanicaDelete;
 
 
 
         }
 
+        //Metodo para descargar reporte en excel
+        public async Task<FileResult> Reportes()
+        {
 
-       
+            var Reportes = new Reportes(context);
+
+            return await Reportes.ReportesExcel();
+
+        }
 
     }
 }

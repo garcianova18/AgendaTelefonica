@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
 using System.IO;
+using Agendatelefonica.Services;
 
 namespace Agendatelefonica.Controllers
 {
@@ -21,24 +22,30 @@ namespace Agendatelefonica.Controllers
         private readonly AgendatelefonicaContext context;
         private readonly IMapper mapper;
         private readonly IHubContext<agendaHub> hubContext;
+        private readonly IRepositoryGenerico<Usuario> repositoryGenerico;
 
-        public UsuariosController(AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext)
+        public UsuariosController(AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext, IRepositoryGenerico<Usuario> repositoryGenerico)
         {
             this.context = context;
             this.mapper = mapper;
             this.hubContext = hubContext;
+            this.repositoryGenerico = repositoryGenerico;
         }
 
-        public async Task<IActionResult> CrearEditarUsuarios([FromBody] UsuariosView usuariosView)
+        public async Task<ActionResult<int>> CrearEditarUsuarios([FromBody] UsuarioCreateView usuario)
         {
-            if (usuariosView.Id == 0)
+            if (usuario.Id == 0)
             {
 
-                var verificaExisteUser = context.Usuarios.Where(u => u.UserName.Trim() == usuariosView.UserName.Trim()).Count();
+                var verificaExisteUser = context.Usuarios.Where(u => u.UserName.Trim() == usuario.UserName.Trim()).Count();
+
+                var mapusuario = mapper.Map<Usuario>(usuario);
+
+               
 
                 if (verificaExisteUser == 1)
                 {
-                    return Ok(3);
+                    return 3;
                 }
 
              
@@ -47,26 +54,19 @@ namespace Agendatelefonica.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    
 
+                    var mapUsuario = mapper.Map<Usuario>(usuario);
 
-                    Usuario usuario = new Usuario();
+                    mapUsuario.Fecha = DateTime.Now;
 
+                    var usuarioCreate = await repositoryGenerico.Create(mapUsuario);
 
-                    usuario.Nombre = usuariosView.Nombre;
-                    usuario.Apellido = usuariosView.Apellido;
-                    usuario.Codigo = usuariosView.Codigo;
-                    usuario.UserName = usuariosView.UserName;
-                    usuario.Password = usuariosView.Password;
-                    usuario.IdRol = usuariosView.IdRol;
-                    usuario.Fecha = DateTime.UtcNow.ToUniversalTime();
-
-                    context.Add(usuario);
-                    await context.SaveChangesAsync();
                     await hubContext.Clients.All.SendAsync("recibir");
 
 
 
-                    return Ok(1);
+                    return usuarioCreate;
                 }
 
             }
@@ -74,53 +74,51 @@ namespace Agendatelefonica.Controllers
             {
                 //Editar
 
-                var verificaExisteUser = context.Usuarios.Where(u => u.UserName.Trim() == usuariosView.UserName.Trim() && u.Id != usuariosView.Id).Count();
+                var verificaExisteUser = context.Usuarios.Where(u => u.UserName.Trim() == usuario.UserName.Trim() && u.Id != usuario.Id).Count();
 
 
                 if (verificaExisteUser == 1)
                 {
-                    return Ok(3);
+                    return 3;
                 }
 
                 if (ModelState.IsValid)
                 {
-                    Usuario usuario = new Usuario();
 
-                    usuario.Id = usuariosView.Id;
-                    usuario.Nombre = usuariosView.Nombre;
-                    usuario.Apellido = usuariosView.Apellido;
-                    usuario.Codigo = usuariosView.Codigo;
-                    usuario.UserName = usuariosView.UserName;
-                    usuario.Password = usuariosView.Password;
-                    usuario.IdRol = usuariosView.IdRol;
+                    var mapUsuario = mapper.Map<Usuario>(usuario);
 
+                    var usuarioUpdate= await repositoryGenerico.update(mapUsuario);
 
-                    context.Update(usuario);
-                    await context.SaveChangesAsync();
+                    
                     await hubContext.Clients.All.SendAsync("recibir");
-                    return Ok(2);
+
+                    return usuarioUpdate;
+
+
                 }
             }
 
 
-            return Ok(0);
+            return 0;
         }
 
-        public async Task<IActionResult> buscarUsuarios(int? id)
+        public async Task<ActionResult<UsuariosView>> buscarUsuarios(int? id)
         {
 
             if (id == 0 || id == null)
             {
                 return Ok(0);
             }
-            var buscarusuario = await context.Usuarios.FindAsync(id);
+            var Usuario = await repositoryGenerico.GetById(id);
 
-            if (buscarusuario == null)
+            if (Usuario == null)
             {
                 return Ok(0);
             }
 
-            return Json(buscarusuario);
+            var mapUsuario =mapper.Map<UsuariosView>(Usuario);
+
+            return mapUsuario;
 
         }
 
@@ -132,7 +130,7 @@ namespace Agendatelefonica.Controllers
                 return 0;
             }
 
-            var usuario = await context.Usuarios.FindAsync(id);
+            var usuario = await repositoryGenerico.GetById(id);
 
 
             if (usuario == null)
@@ -140,11 +138,11 @@ namespace Agendatelefonica.Controllers
                 return 0;
             }
 
-            context.Remove(usuario);
-            await context.SaveChangesAsync();
+            var usuarioDelete = await repositoryGenerico.Delete(usuario);
+
             await hubContext.Clients.All.SendAsync("recibir");
 
-            return 1;
+            return usuarioDelete;
         }
 
 
@@ -171,104 +169,6 @@ namespace Agendatelefonica.Controllers
 
 
         }
-
-
-        
-
-        public async Task<FileResult> ReportesExcel()
-        {
-            DataTable tabla_Electromecanica = new DataTable();
-            DataTable tabla_Mantenedor = new DataTable();
-
-            List<DataTable> tables = new List<DataTable>();
-
-      
-           //creamos las columnas que contendra nuestro tabla y las nombramos
-
-            tabla_Mantenedor.Columns.AddRange(new DataColumn[]
-               {
-
-                    new DataColumn("Mantenedor"),
-                    new DataColumn("Nombre"),
-                    new DataColumn("Funcion"),
-                    new DataColumn("Telefono"),
-                    new DataColumn("Extension"),
-                    new DataColumn("Subsistema"),
-                   
-
-
-
-
-               });
-
-            tabla_Electromecanica.Columns.AddRange(new DataColumn[5]
-               {
-                    new DataColumn("Nombre"),
-                    new DataColumn("Telefono"),
-                    new DataColumn("Extension"),
-                    new DataColumn("Correo"),
-                    new DataColumn("Subsistema"),
-
-
-
-               });
-
-            var mantenedores = await context.Mantenedores.ToListAsync();
-            var Electromecanica = await context.Electromecanicas.ToListAsync();
-
-            //aqui recorremos nuestro listado de usuarios para asignarselo a las fila de nuestra tabla
-
-            foreach (var mantenedor in mantenedores)
-            {
-                tabla_Mantenedor.Rows.Add(mantenedor.Mantenedor, mantenedor.Nombre, mantenedor.Funcion, mantenedor.Telefono, mantenedor.Extension, mantenedor.Subsistema);
-               
-
-            }
-            foreach (var electro in Electromecanica)
-            {
-                tabla_Electromecanica.Rows.Add(electro.Nombre, electro.Telefono, electro.Extension, electro.Correo, electro.Subsistema);
-
-            }
-
-            //crear libro de excel
-
-            using (var libro = new XLWorkbook())
-            {
-                //le damos un bombre a la tabla la cual sera el nombre de la hoja excel
-                tabla_Electromecanica.TableName = "Electromecanica";
-                tabla_Mantenedor.TableName = "Mantenedores";
-
-                // crear hoja de excel
-                var hoja_electromecanica = libro.AddWorksheet(tabla_Electromecanica);
-                hoja_electromecanica.ColumnsUsed().AdjustToContents();
-
-                var hoja_mantenedores = libro.AddWorksheet(tabla_Mantenedor).ColumnsUsed().AdjustToContents();
-
-
-                
-             
-
-                //guardamos el libro en memoria
-
-                using(var memoria = new MemoryStream())
-                {
-                    libro.SaveAs(memoria);
-
-                    //le damos un nombre al archivo de excel y la extension en que se guardara
-                    var NombreArchivo_Excel = string.Concat("Listado_Telefonico", ".xlsx");
-
-                    return File(memoria.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", NombreArchivo_Excel);
-
-                }
-
-
-            }
-
-
-
-
-        }
-
 
 
     }           

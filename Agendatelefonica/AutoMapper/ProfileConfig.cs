@@ -17,6 +17,7 @@ namespace Agendatelefonica.AutoMapper
             CreateMap<Electromecanica, ElectromecanicaView>().ReverseMap();
             CreateMap<Estacione, EstacionesView>().ReverseMap();
             CreateMap<Usuario, UsuariosView>().ReverseMap();
+            CreateMap<Usuario, UsuarioCreateView>().ReverseMap();
         }
     }
 }

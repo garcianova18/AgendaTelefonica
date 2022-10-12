@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Users\wgarcia\Source\Repos\garcianova18\AgendaTelefonica\Agendatelefonica\bin\Release\netcoreapp3.1\publish\</_PublishTargetUrl>
+    <History>True|2022-10-08T02:22:04.3965887Z;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="connexion">
+      <Value>Data Source=SQL5104.site4now.net%3bInitial Catalog=db_a8c9e8_agendacgi%3bUser Id=db_a8c9e8_agendacgi_admin%3bPassword=Willainy240817</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>
