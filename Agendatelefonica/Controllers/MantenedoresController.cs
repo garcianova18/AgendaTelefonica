@@ -10,6 +10,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.SignalR;
+using Agendatelefonica.Services;
+using System.Collections;
 
 namespace Agendatelefonica.Controllers
 {
@@ -19,17 +21,35 @@ namespace Agendatelefonica.Controllers
         private readonly AgendatelefonicaContext context;
         private readonly IMapper mapper;
         private readonly IHubContext<agendaHub> hubContext;
+        private readonly IRepositoryGenerico<Mantenedore> repositoryGenerico;
 
-        public MantenedoresController(AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext)
+        public MantenedoresController(AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext, IRepositoryGenerico<Mantenedore> repositoryGenerico)
         {
             this.context = context;
             this.mapper = mapper;
             this.hubContext = hubContext;
+            this.repositoryGenerico = repositoryGenerico;
         }
-      
+
+        
+        public IEnumerable Mantenedores(string mantenedor)
+        {
+            var mantenedores = context.Mantenedores.ProjectTo<MantenedoresView>(mapper.ConfigurationProvider);
 
 
-        public async Task<JsonResult> BuscarMantenedor(int? id)
+            if (mantenedor != null)
+            {
+                mantenedores = mantenedores.Where(n => n.Mantenedor.Contains(mantenedor.Trim()) || n.Nombre.Contains(mantenedor.Trim()) || n.Funcion.Contains(mantenedor.Trim()) || n.Telefono.Contains(mantenedor.Trim()) || n.Subsistema.Contains(mantenedor.Trim()));
+            }
+
+
+            return mantenedores.OrderBy(m => m.Mantenedor);
+        }
+
+
+
+
+        public async Task<ActionResult<MantenedoresView>>BuscarMantenedor(int? id)
         {
 
 
@@ -38,20 +58,22 @@ namespace Agendatelefonica.Controllers
                 return Json(0);
             }
 
-            var mantenedor = await context.Mantenedores.FindAsync(id);
+            var mantenedor = await repositoryGenerico.GetById(id);
 
             if (mantenedor == null)
             {
                 return Json(0);
             }
 
-            return Json(mantenedor);
+            var mapMantenedor = mapper.Map<MantenedoresView>(mantenedor);
+
+            return mapMantenedor;
 
 
 
         }
 
-        public async Task<JsonResult> EliminarMantenedor(int? id)
+        public async Task<ActionResult<int>> EliminarMantenedor(int? id)
         {
 
 
@@ -60,74 +82,73 @@ namespace Agendatelefonica.Controllers
                 return Json(0);
             }
 
-            var mantenedor = await context.Mantenedores.FindAsync(id);
+            var mantenedor = await repositoryGenerico.GetById(id);
 
             if (mantenedor == null)
             {
                 return Json(0);
             }
+            
 
-            context.Remove(mantenedor);
-            await context.SaveChangesAsync();
+            var mantendorDelete =  await repositoryGenerico.Delete(mantenedor);
             await hubContext.Clients.All.SendAsync("recibir"); ;
 
-            return Json(1);
+            return mantendorDelete;
 
 
 
         }
 
-        public async Task<IActionResult> CrearActualizar([FromBody] MantenedoresView mantenedores)
+        public async Task<ActionResult<int>> CrearActualizar([FromBody] MantenedoresView mantenedores)
         {
-            //crear
+            //Crear
             if (mantenedores.Id == 0)
             {
                 if (ModelState.IsValid)
                 {
                     // para obtener los mensajes de error que colocamos en el modelview para si queremos mostrarlo en el fronted esto es bueno cuando trabajamos con peticiones asincrona
-                    var query = (from Estados in ModelState.Values
-                                 from errores in Estados.Errors
-                                 select errores.ErrorMessage).ToList();
+                    //var query = (from Estados in ModelState.Values
+                    //             from errores in Estados.Errors
+                    //             select errores.ErrorMessage).ToList();
 
-                    var mapperMantenedores = mapper.Map<Mantenedore>(mantenedores);
+                    var mapMantenedores = mapper.Map<Mantenedore>(mantenedores);
+
+
+                    var mantenedorCreate = await repositoryGenerico.Create(mapMantenedores);
                     
-                    context.Add(mapperMantenedores);
-                    await context.SaveChangesAsync();
+                   
                     await hubContext.Clients.All.SendAsync("recibir");
 
-                    return Ok(1);
+                    return mantenedorCreate;
 
                 }
 
 
             }
+
+            //Actualizar
             else
             {
 
                 if (ModelState.IsValid)
                 {
 
-                    var mapperMantenedores = mapper.Map<Mantenedore>(mantenedores);
+                    var mapMantenedores = mapper.Map<Mantenedore>(mantenedores);
 
-                    context.Update(mapperMantenedores);
-                    await context.SaveChangesAsync();
+                    var mantenedorUpdate = await repositoryGenerico.update(mapMantenedores);
+
+                    
                     await hubContext.Clients.All.SendAsync("recibir");
 
-                    return Ok(2);
+                    return mantenedorUpdate;
 
                 }
 
             }
 
 
-
-
-
-            return Ok(0);
+            return 0;
         }
-
-
-
 
 
 

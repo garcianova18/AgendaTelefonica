@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
 using Agendatelefonica.Services;
 using System.Collections;
+using Microsoft.EntityFrameworkCore;
 
 namespace Agendatelefonica.Controllers
 {
@@ -19,16 +20,16 @@ namespace Agendatelefonica.Controllers
     [Authorize]
     public class ElectromecanicaController : Controller
     {
-        private readonly IRepositoryElectromecanica repositoryElectromecanica;
+       // private readonly IRepositoryElectromecanica repositoryElectromecanica;
         private readonly AgendatelefonicaContext context;
         private readonly IMapper mapper;
         private readonly IHubContext<agendaHub> hubContext;
         private readonly IRepositoryGenerico<Electromecanica> repositoryGenerico;
-        
 
+        
         public ElectromecanicaController(IRepositoryElectromecanica repositoryElectromecanica, AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext, IRepositoryGenerico<Electromecanica> repositoryGenerico)
         {
-            this.repositoryElectromecanica = repositoryElectromecanica;
+           // this.repositoryElectromecanica = repositoryElectromecanica;
             this.context = context;
             this.mapper = mapper;
             this.hubContext = hubContext;
@@ -142,7 +143,7 @@ namespace Agendatelefonica.Controllers
         //==================CRUD de electromecanica============================
 
 
-        public async Task< IActionResult >CrearActualizar([FromBody] ElectromecanicaView electromecanica)
+        public async Task<ActionResult<int>>CrearActualizar([FromBody] ElectromecanicaView electromecanica)
         {
             //crear
             if (electromecanica.Id== 0)
@@ -151,13 +152,12 @@ namespace Agendatelefonica.Controllers
                 {
                     var mapElectromecanica = mapper.Map<Electromecanica>(electromecanica);
 
-                    //var electromecanicaCreate = await repositoryElectromecanica.Create(mapElectromecanica);
 
                     var electromecanicaCreate = await repositoryGenerico.Create(mapElectromecanica);
 
                     await hubContext.Clients.All.SendAsync("recibir");
 
-                    return Ok(electromecanicaCreate);
+                    return electromecanicaCreate;
 
                 }
 
@@ -172,27 +172,22 @@ namespace Agendatelefonica.Controllers
 
                     var mapElectromecanica = mapper.Map<Electromecanica>(electromecanica);
 
-                    //var electromecanicaUpdate = await repositoryElectromecanica.update(mapElectromecanica);
-
                     var electromecanicaUpdate = await repositoryGenerico.update(mapElectromecanica);
 
                     await hubContext.Clients.All.SendAsync("recibir");
 
-                    return Ok(electromecanicaUpdate);
+                    return electromecanicaUpdate;
 
                 }
 
             }
 
 
-
-
-
-            return Ok(0);
+            return 0;
         }
 
         
-        public async Task<ActionResult> BuscarElectromecanico(int? id)
+        public async Task<ActionResult<ElectromecanicaView>> BuscarElectromecanico(int? id)
         {
 
 
@@ -200,9 +195,6 @@ namespace Agendatelefonica.Controllers
             {
                 return Ok(0);
             }
-
-
-            //var electromecanico = await repositoryElectromecanica.GetById(id);
 
             var electromecanico = await repositoryGenerico.GetById(id);
 
@@ -213,15 +205,14 @@ namespace Agendatelefonica.Controllers
                 return Ok(0);
             }
 
-            return Ok(mapElectromecanica);
-
+            return mapElectromecanica;
 
 
         }
 
 
 
-        public async Task<ActionResult> EliminarElectromecanica(int? id)
+        public async Task<ActionResult<int>> EliminarElectromecanica(int? id)
         {
 
 
@@ -230,8 +221,6 @@ namespace Agendatelefonica.Controllers
                 return Ok(0);
             }
 
-            //var electromecanico = await repositoryElectromecanica.GetById(id);
-
             var electromecanico = await repositoryGenerico.GetById(id);
 
             if (electromecanico == null)
@@ -239,14 +228,11 @@ namespace Agendatelefonica.Controllers
                 return Ok(0);
             }
 
-
-            //var electromecanicaDelete = await repositoryElectromecanica.Delete(electromecanico);
-
             var electromecanicaDelete = await repositoryGenerico.Delete(electromecanico);
 
             await hubContext.Clients.All.SendAsync("recibir");
 
-            return Ok(electromecanicaDelete);
+            return electromecanicaDelete;
 
 
 

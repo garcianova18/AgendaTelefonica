@@ -17,8 +17,10 @@ namespace Agendatelefonica.Services
         }
         public async Task<int> Create(T Entidad)
         {
+            
             Entidades.Add(Entidad);
             await _context.SaveChangesAsync();
+           
 
             return 1;
         }
@@ -35,7 +37,7 @@ namespace Agendatelefonica.Services
         public async Task<IEnumerable<T>> GetAll()
         {
 
-            //return await Entidades.ToListAsync();
+            return await Entidades.ToListAsync();
 
            
         }

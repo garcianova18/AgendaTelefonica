@@ -16,6 +16,6 @@ namespace Agendatelefonica.Models
         public int IdRol { get; set; }
         public DateTime? Fecha { get; set; }
 
-        public virtual Rol IdRolNavigation { get; set; }
+        public  Rol IdRolNavigation { get; set; }
     }
 }

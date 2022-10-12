@@ -31,8 +31,14 @@ namespace Agendatelefonica.ViewModels
 
         public string FullName { get; set; }
 
+        public Rol IdRolNavigation { get; set; }
+
+        //con esta propiedad compuesta por la prop, de navegacion y la propiead nombre de la tabla ROl
+        // mapper la que hace es ir a la tabla ROl y traerme el nombre
         public  string IdRolNavigationNombre { get; set; }
 
-        public virtual Rol IdRolNavigation { get; set; }
+        
+
+
     }
 }

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClosedXML.Excel;
 using System.IO;
+using Agendatelefonica.Services;
 
 namespace Agendatelefonica.Controllers
 {
@@ -21,24 +22,26 @@ namespace Agendatelefonica.Controllers
         private readonly AgendatelefonicaContext context;
         private readonly IMapper mapper;
         private readonly IHubContext<agendaHub> hubContext;
+        private readonly IRepositoryGenerico<Usuario> repositoryGenerico;
 
-        public UsuariosController(AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext)
+        public UsuariosController(AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext, IRepositoryGenerico<Usuario> repositoryGenerico)
         {
             this.context = context;
             this.mapper = mapper;
             this.hubContext = hubContext;
+            this.repositoryGenerico = repositoryGenerico;
         }
 
-        public async Task<IActionResult> CrearEditarUsuarios([FromBody] UsuariosView usuariosView)
+        public async Task<ActionResult<int>> CrearEditarUsuarios([FromBody] UsuarioCreateView usuario)
         {
-            if (usuariosView.Id == 0)
+            if (usuario.Id == 0)
             {
 
-                var verificaExisteUser = context.Usuarios.Where(u => u.UserName.Trim() == usuariosView.UserName.Trim()).Count();
+                var verificaExisteUser = context.Usuarios.Where(u => u.UserName.Trim() == usuario.UserName.Trim()).Count();
 
                 if (verificaExisteUser == 1)
                 {
-                    return Ok(3);
+                    return 3;
                 }
 
              
@@ -47,26 +50,19 @@ namespace Agendatelefonica.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    
 
+                    var mapUsuario = mapper.Map<Usuario>(usuario);
 
-                    Usuario usuario = new Usuario();
+                    mapUsuario.Fecha = DateTime.Now;
 
+                    var usuarioCreate = await repositoryGenerico.Create(mapUsuario);
 
-                    usuario.Nombre = usuariosView.Nombre;
-                    usuario.Apellido = usuariosView.Apellido;
-                    usuario.Codigo = usuariosView.Codigo;
-                    usuario.UserName = usuariosView.UserName;
-                    usuario.Password = usuariosView.Password;
-                    usuario.IdRol = usuariosView.IdRol;
-                    usuario.Fecha = DateTime.UtcNow.ToUniversalTime();
-
-                    context.Add(usuario);
-                    await context.SaveChangesAsync();
                     await hubContext.Clients.All.SendAsync("recibir");
 
 
 
-                    return Ok(1);
+                    return usuarioCreate;
                 }
 
             }
@@ -74,53 +70,51 @@ namespace Agendatelefonica.Controllers
             {
                 //Editar
 
-                var verificaExisteUser = context.Usuarios.Where(u => u.UserName.Trim() == usuariosView.UserName.Trim() && u.Id != usuariosView.Id).Count();
+                var verificaExisteUser = context.Usuarios.Where(u => u.UserName.Trim() == usuario.UserName.Trim() && u.Id != usuario.Id).Count();
 
 
                 if (verificaExisteUser == 1)
                 {
-                    return Ok(3);
+                    return 3;
                 }
 
                 if (ModelState.IsValid)
                 {
-                    Usuario usuario = new Usuario();
 
-                    usuario.Id = usuariosView.Id;
-                    usuario.Nombre = usuariosView.Nombre;
-                    usuario.Apellido = usuariosView.Apellido;
-                    usuario.Codigo = usuariosView.Codigo;
-                    usuario.UserName = usuariosView.UserName;
-                    usuario.Password = usuariosView.Password;
-                    usuario.IdRol = usuariosView.IdRol;
+                    var mapUsuario = mapper.Map<Usuario>(usuario);
 
+                    var usuarioUpdate= await repositoryGenerico.update(mapUsuario);
 
-                    context.Update(usuario);
-                    await context.SaveChangesAsync();
+                    
                     await hubContext.Clients.All.SendAsync("recibir");
-                    return Ok(2);
+
+                    return usuarioUpdate;
+
+
                 }
             }
 
 
-            return Ok(0);
+            return 0;
         }
 
-        public async Task<IActionResult> buscarUsuarios(int? id)
+        public async Task<ActionResult<UsuariosView>> buscarUsuarios(int? id)
         {
 
             if (id == 0 || id == null)
             {
                 return Ok(0);
             }
-            var buscarusuario = await context.Usuarios.FindAsync(id);
+            var Usuario = await repositoryGenerico.GetById(id);
 
-            if (buscarusuario == null)
+            if (Usuario == null)
             {
                 return Ok(0);
             }
 
-            return Json(buscarusuario);
+            var mapUsuario =mapper.Map<UsuariosView>(Usuario);
+
+            return mapUsuario;
 
         }
 
@@ -132,7 +126,7 @@ namespace Agendatelefonica.Controllers
                 return 0;
             }
 
-            var usuario = await context.Usuarios.FindAsync(id);
+            var usuario = await repositoryGenerico.GetById(id);
 
 
             if (usuario == null)
@@ -140,11 +134,11 @@ namespace Agendatelefonica.Controllers
                 return 0;
             }
 
-            context.Remove(usuario);
-            await context.SaveChangesAsync();
+            var usuarioDelete = await repositoryGenerico.Delete(usuario);
+
             await hubContext.Clients.All.SendAsync("recibir");
 
-            return 1;
+            return usuarioDelete;
         }
 
 
