@@ -1,3 +1,11 @@
+
 obj
 bin
 Resultados-Compilación.txt
+*.vsidx
+*.v2
+*.lock
+/.vs/ProjectEvaluation
+/.vs
+/vs
+*.suo
