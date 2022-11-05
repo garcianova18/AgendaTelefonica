@@ -80,11 +80,11 @@ function CrearEstacion(e) {
 
 
 
-    linea.value == "" ? errorLinea.classList.add("campo_incorrecto") : errorLinea.classList.remove("campo_incorrecto");
-    estacion.value == "" ? errorEstacion.classList.add("campo_incorrecto") : errorEstacion.classList.remove("campo_incorrecto");
-    tic.value == "" ? errorTic.classList.add("campo_incorrecto") : errorTic.classList.remove("campo_incorrecto");
-    cci.value == "" ? errorCci.classList.add("campo_incorrecto") : errorCci.classList.remove("campo_incorrecto");
-    interfono.value == "" ? errorInterfono.classList.add("campo_incorrecto") : errorInterfono.classList.remove("campo_incorrecto")
+    linea.value === "" ? errorLinea.classList.add("campo_incorrecto") : errorLinea.classList.remove("campo_incorrecto");
+    estacion.value === "" ? errorEstacion.classList.add("campo_incorrecto") : errorEstacion.classList.remove("campo_incorrecto");
+    tic.value === "" ? errorTic.classList.add("campo_incorrecto") : errorTic.classList.remove("campo_incorrecto");
+    cci.value ==="" ? errorCci.classList.add("campo_incorrecto") : errorCci.classList.remove("campo_incorrecto");
+    interfono.value === "" ? errorInterfono.classList.add("campo_incorrecto") : errorInterfono.classList.remove("campo_incorrecto")
 
 
 
@@ -121,7 +121,7 @@ function CrearEstacion(e) {
 
             //aqui decimos si el campo que disparo el evento esta vacio agregale la clase error si esta lleno quitase
 
-            e.target.value.trim() != "" ? iconoError_camposObligatorios[Index].classList.remove("campo_incorrecto") : iconoError_camposObligatorios[Index].classList.add("campo_incorrecto")
+            e.target.value.trim() !== "" ? iconoError_camposObligatorios[Index].classList.remove("campo_incorrecto") : iconoError_camposObligatorios[Index].classList.add("campo_incorrecto")
 
 
         }
@@ -138,7 +138,7 @@ function CrearEstacion(e) {
 
 
 
-    if (linea.value == "" || estacion.value == "" || tic.value == "" || cci.value == "" || interfono.value == "") {
+    if (linea.value === "" || estacion.value === "" || tic.value === "" || cci.value === "" || interfono.value === "") {
 
 
 
@@ -185,7 +185,7 @@ function CrearEstacion(e) {
 
 
 
-                if (data == 1) {
+                if (data === 1) {
                     // para que el modal se cierre automaticamente al agregar
                     const usuario_btncerrar = document.getElementById("estacion_btncerrar");
                     usuario_btncerrar.click();
@@ -280,11 +280,11 @@ function EditarEstacion(e) {
 
 
 
-    linea.value == "" ? errorLinea.classList.add("campo_incorrecto") : errorLinea.classList.remove("campo_incorrecto");
-    estacion.value == "" ? errorEstacion.classList.add("campo_incorrecto") : errorEstacion.classList.remove("campo_incorrecto");
-    tic.value == "" ? errorTic.classList.add("campo_incorrecto") : errorTic.classList.remove("campo_incorrecto");
-    cci.value == "" ? errorCci.classList.add("campo_incorrecto") : errorCci.classList.remove("campo_incorrecto");
-    interfono.value == "" ? errorInterfono.classList.add("campo_incorrecto") : errorInterfono.classList.remove("campo_incorrecto")
+    linea.value === "" ? errorLinea.classList.add("campo_incorrecto") : errorLinea.classList.remove("campo_incorrecto");
+    estacion.value === "" ? errorEstacion.classList.add("campo_incorrecto") : errorEstacion.classList.remove("campo_incorrecto");
+    tic.value === "" ? errorTic.classList.add("campo_incorrecto") : errorTic.classList.remove("campo_incorrecto");
+    cci.value === "" ? errorCci.classList.add("campo_incorrecto") : errorCci.classList.remove("campo_incorrecto");
+    interfono.value === "" ? errorInterfono.classList.add("campo_incorrecto") : errorInterfono.classList.remove("campo_incorrecto")
 
 
 
@@ -314,7 +314,7 @@ function EditarEstacion(e) {
 
             //aqui decimos si el campo que disparo el evento esta vacio agregale la clase error si esta lleno quitase
 
-            e.target.value.trim() != "" ? iconoError_camposObligatorios[Index].classList.remove("campo_incorrecto") : iconoError_camposObligatorios[Index].classList.add("campo_incorrecto")
+            e.target.value.trim() !== "" ? iconoError_camposObligatorios[Index].classList.remove("campo_incorrecto") : iconoError_camposObligatorios[Index].classList.add("campo_incorrecto")
 
 
         }
@@ -331,7 +331,7 @@ function EditarEstacion(e) {
 
 
 
-    if (linea.value == "" || estacion.value == "" || tic.value == "" || cci.value == "" || interfono.value == "") {
+    if (linea.value === "" || estacion.value === "" || tic.value === "" || cci.value === "" || interfono.value === "") {
 
 
 
@@ -378,7 +378,7 @@ function EditarEstacion(e) {
             .then(res => res.json())
             .then(data => {
 
-                if (data == 2) {
+                if (data === 2) {
                     // para que el modal se cierre automaticamente al actualizar
                     const usuario_btncerrar = document.getElementById("estacion_btncerrarActualizar");
                     usuario_btncerrar.click();
@@ -462,7 +462,7 @@ function Eliminar_Estaciones(id) {
                 .then(res => res.json())
                 .then(data => {
 
-                    if (data == 1) {
+                    if (data === 1) {
 
                         const urlusuarios = "Electromecanica/Usuarios";
                         listarUsuarios(urlusuarios);

@@ -23,7 +23,7 @@ function listarUsuarios(url) {
 
                         <tr>
 
-                         <td>${data[i].nombre}</td>
+                        <td>${data[i].nombre}</td>
                         <td>${data[i].apellido}</td>
                         <td>${data[i].codigo}</td>
                         <td>${data[i].userName}</td>
@@ -89,12 +89,12 @@ function CrearUsuarios(e) {
 
 
 
-    nombre.value == "" ? errorNombre.classList.add("campo_incorrecto") : errorNombre.classList.remove("campo_incorrecto");
-    apellido.value == "" ? errorApellido.classList.add("campo_incorrecto") : errorApellido.classList.remove("campo_incorrecto");
-    codigo.value == "" ? erroCodigo.classList.add("campo_incorrecto") : erroCodigo.classList.remove("campo_incorrecto");
-    usuario.value == "" ? errorUsuario.classList.add("campo_incorrecto") : errorUsuario.classList.remove("campo_incorrecto");
-    contrasena.value == "" ? erroContrasena.classList.add("campo_incorrecto") : erroContrasena.classList.remove("campo_incorrecto")
-    rol.value == "" ? errorRol.classList.add("campo_incorrecto") : errorRol.classList.remove("campo_incorrecto")
+    nombre.value === "" ? errorNombre.classList.add("campo_incorrecto") : errorNombre.classList.remove("campo_incorrecto");
+    apellido.value === "" ? errorApellido.classList.add("campo_incorrecto") : errorApellido.classList.remove("campo_incorrecto");
+    codigo.value === "" ? erroCodigo.classList.add("campo_incorrecto") : erroCodigo.classList.remove("campo_incorrecto");
+    usuario.value === "" ? errorUsuario.classList.add("campo_incorrecto") : errorUsuario.classList.remove("campo_incorrecto");
+    contrasena.value === "" ? erroContrasena.classList.add("campo_incorrecto") : erroContrasena.classList.remove("campo_incorrecto")
+    rol.value ==="" ? errorRol.classList.add("campo_incorrecto") : errorRol.classList.remove("campo_incorrecto")
 
 
 
@@ -143,7 +143,7 @@ function CrearUsuarios(e) {
     const alert_camposObligatorios = document.getElementById("user_alert_camposObligatorios");
 
 
-    if (nombre.value == "" || apellido.value == "" || codigo.value == "" || usuario.value == "" || contrasena.value == "" || rol.value == "") {
+    if (nombre.value === "" || apellido.value === "" || codigo.value === "" || usuario.value === "" || contrasena.value === "" || rol.value === "") {
 
 
 
@@ -187,7 +187,7 @@ function CrearUsuarios(e) {
 
 
 
-                if (data == 1) {
+                if (data === 1) {
                     // para que el modal se cierre automaticamente al agregar
                     const usuario_btncerrar = document.getElementById("usuario_btncerrar");
                     usuario_btncerrar.click();
@@ -221,7 +221,7 @@ function CrearUsuarios(e) {
 
 
                 }
-                else if (data == 3) {
+                else if (data === 3) {
 
                     Swal.fire({
                         position: 'center',
@@ -323,12 +323,12 @@ function EditarUsuario(e) {
 
 
 
-    nombre.value == "" ? errorNombre.classList.add("campo_incorrecto") : errorNombre.classList.remove("campo_incorrecto");
-    apellido.value == "" ? errorApellido.classList.add("campo_incorrecto") : errorApellido.classList.remove("campo_incorrecto");
-    codigo.value == "" ? erroCodigo.classList.add("campo_incorrecto") : erroCodigo.classList.remove("campo_incorrecto");
-    usuario.value == "" ? errorUsuario.classList.add("campo_incorrecto") : errorUsuario.classList.remove("campo_incorrecto");
-    contrasena.value == "" ? erroContrasena.classList.add("campo_incorrecto") : erroContrasena.classList.remove("campo_incorrecto")
-    rol.value == "" ? errorRol.classList.add("campo_incorrecto") : errorRol.classList.remove("campo_incorrecto")
+    nombre.value === "" ? errorNombre.classList.add("campo_incorrecto") : errorNombre.classList.remove("campo_incorrecto");
+    apellido.value === "" ? errorApellido.classList.add("campo_incorrecto") : errorApellido.classList.remove("campo_incorrecto");
+    codigo.value === "" ? erroCodigo.classList.add("campo_incorrecto") : erroCodigo.classList.remove("campo_incorrecto");
+    usuario.value === "" ? errorUsuario.classList.add("campo_incorrecto") : errorUsuario.classList.remove("campo_incorrecto");
+    contrasena.value === "" ? erroContrasena.classList.add("campo_incorrecto") : erroContrasena.classList.remove("campo_incorrecto")
+    rol.value === "" ? errorRol.classList.add("campo_incorrecto") : errorRol.classList.remove("campo_incorrecto")
 
 
 
@@ -361,7 +361,7 @@ function EditarUsuario(e) {
 
             //aqui decimos si el campo que disparo el evento esta vacio agregale la clase error si esta lleno quitase
 
-            e.target.value.trim() != "" ? iconoError_camposObligatirios[Index].classList.remove("campo_incorrecto") : iconoError_camposObligatirios[Index].classList.add("campo_incorrecto")
+            e.target.value.trim() !== "" ? iconoError_camposObligatirios[Index].classList.remove("campo_incorrecto") : iconoError_camposObligatirios[Index].classList.add("campo_incorrecto")
 
 
         }
@@ -378,7 +378,7 @@ function EditarUsuario(e) {
 
 
 
-    if (nombre.value == "" || apellido.value == "" || codigo.value == "" || usuario.value == "" || contrasena.value == "" || rol.value == "") {
+    if (nombre.value === "" || apellido.value === "" || codigo.value === "" || usuario.value === "" || contrasena.value === "" || rol.value === "") {
 
 
 
@@ -420,7 +420,7 @@ function EditarUsuario(e) {
             .then(res => res.json())
             .then(data => {
 
-                if (data == 2) {
+                if (data === 2) {
                     // para que el modal se cierre automaticamente al actualizar
                     const usuario_btncerrar = document.getElementById("usuario_btncerrar_actualizar");
                     usuario_btncerrar.click();
@@ -444,7 +444,7 @@ function EditarUsuario(e) {
 
 
                 }
-                else if (data == 3) {
+                else if (data === 3) {
 
                     Swal.fire({
                         position: 'center',
@@ -504,7 +504,7 @@ function Eliminar_usuario(id) {
                 .then(res => res.json())
                 .then(data => {
 
-                    if (data == 1) {
+                    if (data === 1) {
 
                         const urlusuarios = "Electromecanica/Usuarios";
                         listarUsuarios(urlusuarios);

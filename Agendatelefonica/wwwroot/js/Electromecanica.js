@@ -247,9 +247,9 @@ function EditarElectromecanica(e) {
 
 
 
-    nombre.value == "" ? errorNombre.classList.add("campo_incorrecto") : errorNombre.classList.remove("campo_incorrecto");
-    telefono.value == "" ? errorTelefono.classList.add("campo_incorrecto") : errorTelefono.classList.remove("campo_incorrecto");
-    subsistema.value == "" ? errorSubsistema.classList.add("campo_incorrecto") : errorSubsistema.classList.remove("campo_incorrecto")
+    nombre.value === "" ? errorNombre.classList.add("campo_incorrecto") : errorNombre.classList.remove("campo_incorrecto");
+    telefono.value === "" ? errorTelefono.classList.add("campo_incorrecto") : errorTelefono.classList.remove("campo_incorrecto");
+    subsistema.value === "" ? errorSubsistema.classList.add("campo_incorrecto") : errorSubsistema.classList.remove("campo_incorrecto")
 
 
 
@@ -283,7 +283,7 @@ function EditarElectromecanica(e) {
 
             //aqui decimos si el campo que disparo el evento esta vacio agregale la clase error si esta lleno quitase
 
-            e.target.value.trim() != "" ? iconoError_CamposObligatorios[Index].classList.remove("campo_incorrecto") : iconoError_CamposObligatorios[Index].classList.add("campo_incorrecto")
+            e.target.value.trim() !== "" ? iconoError_CamposObligatorios[Index].classList.remove("campo_incorrecto") : iconoError_CamposObligatorios[Index].classList.add("campo_incorrecto")
 
 
         }
@@ -301,7 +301,7 @@ function EditarElectromecanica(e) {
 
 
 
-    if (nombre.value == "" || telefono.value == "" || subsistema.value == "") {
+    if (nombre.value === "" || telefono.value === "" || subsistema.value === "") {
 
 
 

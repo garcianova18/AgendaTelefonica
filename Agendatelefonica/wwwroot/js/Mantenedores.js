@@ -86,11 +86,11 @@ function EditarMantenedor(e) {
 
 
 
-    mantenedor.value == "" ? errorMantenedor.classList.add("campo_incorrecto") : errorMantenedor.classList.remove("campo_incorrecto");
-    nombre.value == "" ? errorNombre.classList.add("campo_incorrecto") : errorNombre.classList.remove("campo_incorrecto");
-    funcion.value == "" ? errorFuncion.classList.add("campo_incorrecto") : errorFuncion.classList.remove("campo_incorrecto");
-    telefono.value == "" ? errorTelefono.classList.add("campo_incorrecto") : errorTelefono.classList.remove("campo_incorrecto");
-    subsistema.value == "" ? errorSubsistema.classList.add("campo_incorrecto") : errorSubsistema.classList.remove("campo_incorrecto");
+    mantenedor.value === "" ? errorMantenedor.classList.add("campo_incorrecto") : errorMantenedor.classList.remove("campo_incorrecto");
+    nombre.value === "" ? errorNombre.classList.add("campo_incorrecto") : errorNombre.classList.remove("campo_incorrecto");
+    funcion.value === "" ? errorFuncion.classList.add("campo_incorrecto") : errorFuncion.classList.remove("campo_incorrecto");
+    telefono.value === "" ? errorTelefono.classList.add("campo_incorrecto") : errorTelefono.classList.remove("campo_incorrecto");
+    subsistema.value === "" ? errorSubsistema.classList.add("campo_incorrecto") : errorSubsistema.classList.remove("campo_incorrecto");
 
 
 
@@ -138,7 +138,7 @@ function EditarMantenedor(e) {
 
     const alert_camposObligatorios = document.getElementById("mantAlert_camposObligatoriosActualizar");
 
-    if (mantenedor.value == "" || nombre.value == "" || funcion.value == "" || telefono.value == "" || subsistema.value == "") {
+    if (mantenedor.value === "" || nombre.value === "" || funcion.value === "" || telefono.value === "" || subsistema.value === "") {
 
 
 
@@ -180,7 +180,7 @@ function EditarMantenedor(e) {
             .then(res => res.json())
             .then(data => {
 
-                if (data == 2) {
+                if (data === 2) {
 
 
                     // para que el modal se cierre automaticamente al actualizar
@@ -248,7 +248,7 @@ function Eliminar(id) {
                 .then(res => res.json())
                 .then(data => {
 
-                    if (data == 1) {
+                    if (data === 1) {
 
                         const urlmantenedor = "Electromecanica/Mantenedores";
 
@@ -320,11 +320,11 @@ function CrearMantenedor(e) {
 
 
 
-    mantenedor.value == "" ? errorMantenedor.classList.add("campo_incorrecto") : errorMantenedor.classList.remove("campo_incorrecto");
-    nombre.value == "" ? errorNombre.classList.add("campo_incorrecto") : errorNombre.classList.remove("campo_incorrecto");
-    funcion.value == "" ? errorFuncion.classList.add("campo_incorrecto") : errorFuncion.classList.remove("campo_incorrecto");
-    telefono.value == "" ? errorTelefono.classList.add("campo_incorrecto") : errorTelefono.classList.remove("campo_incorrecto");
-    subsistema.value == "" ? errorSubsistema.classList.add("campo_incorrecto") : errorSubsistema.classList.remove("campo_incorrecto");
+    mantenedor.value === "" ? errorMantenedor.classList.add("campo_incorrecto") : errorMantenedor.classList.remove("campo_incorrecto");
+    nombre.value === "" ? errorNombre.classList.add("campo_incorrecto") : errorNombre.classList.remove("campo_incorrecto");
+    funcion.value === "" ? errorFuncion.classList.add("campo_incorrecto") : errorFuncion.classList.remove("campo_incorrecto");
+    telefono.value === "" ? errorTelefono.classList.add("campo_incorrecto") : errorTelefono.classList.remove("campo_incorrecto");
+    subsistema.value === "" ? errorSubsistema.classList.add("campo_incorrecto") : errorSubsistema.classList.remove("campo_incorrecto");
 
 
 
@@ -356,7 +356,7 @@ function CrearMantenedor(e) {
 
             //aqui decimos si el campo que disparo el evento esta vacio agregale la clase error si esta lleno quitase
 
-            e.target.value.trim() != "" ? iconoError_camposObligatorios[Index].classList.remove("campo_incorrecto") : iconoError_camposObligatorios[Index].classList.add("campo_incorrecto")
+            e.target.value.trim() !== "" ? iconoError_camposObligatorios[Index].classList.remove("campo_incorrecto") : iconoError_camposObligatorios[Index].classList.add("campo_incorrecto")
 
 
 
@@ -373,7 +373,7 @@ function CrearMantenedor(e) {
 
     const alert_camposObligatorios = document.getElementById("mant_alert_camposObligatorios");
 
-    if (mantenedor.value == "" || nombre.value == "" || funcion.value == "" || telefono.value == "" || subsistema.value == "") {
+    if (mantenedor.value === "" || nombre.value === "" || funcion.value === "" || telefono.value === "" || subsistema.value === "") {
 
 
 
@@ -416,7 +416,7 @@ function CrearMantenedor(e) {
             .then(res => res.json())
             .then(data => {
 
-                if (data == 1) {
+                if (data === 1) {
                     // para que el modal se cierre automaticamente al agregar
                     const btncerrar = document.getElementById("Mant_Btncerrar");
                     btncerrar.click();
