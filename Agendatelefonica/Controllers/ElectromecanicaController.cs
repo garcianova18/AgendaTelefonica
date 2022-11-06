@@ -50,16 +50,17 @@ namespace Agendatelefonica.Controllers
 
             var electromecanica = await repositoryGenerico.GetAll();
 
-            //para evitarnos estar mapeando las propiedades de Electromecanica a ElectromecanicaView usamos ProjectTo de automapper que lo hace automatico
-            var mapElectromecanica = context.Electromecanicas.ProjectTo<ElectromecanicaView>(mapper.ConfigurationProvider);
 
-          
+            var mapElectromecanica = mapper.Map<IEnumerable<ElectromecanicaView>>(electromecanica);
+         
+
+
             if (electromecanico != null)
             {
                 mapElectromecanica = mapElectromecanica.Where(n => n.Nombre.Contains(electromecanico.Trim()) || n.Telefono.Contains(electromecanico.Trim()) || n.Correo.Contains(electromecanico.Trim()) || n.Extension.Contains(electromecanico.Trim()) || n.Subsistema.Contains(electromecanico.Trim()));
             }
 
-            return mapElectromecanica;
+            return mapElectromecanica.OrderBy(n=>n.Subsistema);
 
 
         }
