@@ -14,6 +14,7 @@ namespace Agendatelefonica.Services
     {
 
         private readonly AgendatelefonicaContext context;
+
         public Reportes(AgendatelefonicaContext context)
         {
             this.context = context;
@@ -37,9 +38,6 @@ namespace Agendatelefonica.Services
                     new DataColumn("Telefono"),
                     new DataColumn("Extension"),
                     new DataColumn("Subsistema"),
-
-
-
 
 
                });
