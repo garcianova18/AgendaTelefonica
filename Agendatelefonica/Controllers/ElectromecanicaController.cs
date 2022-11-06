@@ -60,7 +60,7 @@ namespace Agendatelefonica.Controllers
                 mapElectromecanica = mapElectromecanica.Where(n => n.Nombre.Contains(electromecanico.Trim()) || n.Telefono.Contains(electromecanico.Trim()) || n.Correo.Contains(electromecanico.Trim()) || n.Extension.Contains(electromecanico.Trim()) || n.Subsistema.Contains(electromecanico.Trim()));
             }
 
-            return mapElectromecanica.OrderBy(n=>n.Subsistema);
+            return mapElectromecanica.OrderBy(e=>e.Subsistema);
 
 
         }
@@ -108,7 +108,7 @@ namespace Agendatelefonica.Controllers
             }
 
 
-            return Json(usuarios.OrderByDescending(u=> u.Id));
+            return Json(usuarios.OrderBy(u=> u.UserName));
         }
 
 
