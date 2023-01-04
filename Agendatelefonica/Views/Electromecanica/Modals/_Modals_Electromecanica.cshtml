@@ -1,0 +1,149 @@
+﻿<!-- Modal para agrega Electromecanica-->
+<div class="modal fade" id="modalagregarElectromecanico" data-bs-backdrop="static" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="exampleModalLabel">Agregar Electromecánica</h5>
+                @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
+            </div>
+
+            <form method="post" id="form_AgregarElectromecanica">
+
+                <div class="modal-body row" id="elect_divpadre_campos_obligatorios">
+
+
+                    <div class="col-6 mb-3 container-input">
+
+                        <label class="form-label">Nombre</label>
+                        <input class="form-control form-control-css elect_campos_obligatorios" id="elect_nombreAgregar" />
+                        <span class="campo_correcto iconoError_campos_obligatorios" id="elect_error_nombre"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-6 mb-3 container-input">
+
+                        <label class="form-label">Telefono</label>
+                        <input class="form-control form-control-css elect_campos_obligatorios" id="elect_telefonoAgregar" />
+                        <span class="campo_correcto iconoError_campos_obligatorios" id="elect_error_telefono"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-6  mb-3 container-input">
+
+                        <label class="form-label">Correo</label>
+                        <input class="form-control form-control-css" id="elect_correoAgregar" />
+                        <span class="campo_correcto " id="elect_error-correo"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-6 mb-3 container-input ">
+
+                        <label class="form-label">Extension</label>
+                        <input class="form-control form-control-css" id="elect_extensionAgregar" />
+                        <span class="campo_correcto " id="elect_error-extension"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+
+                    <div class="col-6 mb-3 container-input ">
+
+                        <label class="form-label">Subsistema</label>
+                        <input class="form-control form-control-css elect_campos_obligatorios" id="elect_subsistemaAgregar" />
+                        <span class="campo_correcto iconoError_campos_obligatorios" id="elect_error_subsistema"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+
+                    <div class="col-12 mb-3 container-input ">
+
+                        <div class="alert alert-danger alert-campos-obligatorios" role="alert" id="electAlert_camposObligatorios">
+                            <p> Los campos marcados con  <span class="Icono_alerta "><i class="bi bi-x-circle-fill"></i></span>  son requeridos.</p>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="elect_btncerrar">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
+
+<!-- Modal para actualizar Electromecanica-->
+<div class="modal fade" id="modalActualizar_elect" data-bs-backdrop="static" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="exampleModalLabel">Editar Electromecánica</h5>
+                @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
+            </div>
+
+            <form method="post" id="form_ActualizarElectromecanica">
+
+                <div class="modal-body row" id="elect_divpadre_campos_obligatoriosActualizar">
+
+                    <div class="col-12 mb-3 container-input ">
+
+                        <input class="form-control " id="elect_id" disabled hidden />
+
+                    </div>
+
+                    <div class="col-6 mb-3 container-input">
+
+                        <label class="form-label">Nombre</label>
+                        <input class="form-control form-control-css elect_campos_obligatoriosActualizar " id="elect_nombreActualizar" />
+                        <span class="campo_correcto iconoError_campos_obligatoriosActualizar" id="elect_error_nombreActualizar"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-6 mb-3 container-input">
+
+                        <label class="form-label">Telefono</label>
+                        <input class="form-control form-control-css elect_campos_obligatoriosActualizar" id="elect_telefonoActualizar" />
+                        <span class="campo_correcto iconoError_campos_obligatoriosActualizar" id="elect_error_telefonoActualizar"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-6  mb-3 container-input">
+
+                        <label class="form-label">Correo</label>
+                        <input class="form-control form-control-css" id="elect_correoActualizar" />
+
+                    </div>
+                    <div class="col-6 mb-3 container-input ">
+
+                        <label class="form-label">Extension</label>
+                        <input class="form-control form-control-css" id="elect_extensionActualizar" />
+
+                    </div>
+
+                    <div class="col-6 mb-3 container-input ">
+
+                        <label class="form-label">Subsistema</label>
+                        <input class="form-control form-control-css elect_campos_obligatoriosActualizar" id="elect_subsistemaActualizar" />
+                        <span class="campo_correcto iconoError_campos_obligatoriosActualizar" id="elect_error_subsistemaActualizar"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+
+                    <div class="col-12 mb-3 container-input ">
+
+                        <div class="alert alert-danger alert-campos-obligatorios" role="alert" id="electAlert_camposObligatoriosActualizar">
+                            <p> Los campos marcados con  <span class="Icono_alerta "><i class="bi bi-x-circle-fill"></i></span>  son requeridos.</p>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="elect_btncerrar_Actualizar">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+</div>

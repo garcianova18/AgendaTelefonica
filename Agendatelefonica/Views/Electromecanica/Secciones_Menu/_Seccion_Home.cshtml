@@ -1,0 +1,284 @@
+﻿@using Microsoft.AspNetCore.Identity;
+
+ <!--Seccion 1 menu lateral-->
+<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+     aria-labelledby="v-pills-home-tab">
+
+
+    <!---Area del menu primcipal-->
+    <div class="container-menu-principal mx-3 ">
+
+
+        <div class="row bg-white  fila-primaria">
+
+            <!---columna tab pestañas-->
+
+            <div class="col-12 ">
+
+                <!--- Menu tab/pestañas dinamicas -->
+
+                <nav class="container-menu-secundario ">
+
+                    <div class=" menu nav  nav-tabs justify-content-center  " id="nav-tab" role="tablist">
+
+
+                        <button class="nav-link active " id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                                type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                            <i class="fa-solid fa-gears icono-menu-secundario-elect"></i>Electromecánica
+                        </button>
+
+
+                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                                type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+                            <i class="fa-solid fa-screwdriver-wrench icono-menu-secundario"></i> Mantenedores
+                        </button>
+
+
+                        <button class="nav-link " id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact"
+                                type="button" role="tab" aria-controls="nav-contact" aria-selected="false">
+                            <i class="fas fa-solid fa-phone  icono-menu-secundario"></i> Estaciones
+                        </button>
+
+                        <!--------Area resgringida solo administradores tienen acceso-->
+                        @if (User.IsInRole("Administrador"))
+                        {
+
+                            <button class="nav-link " id="nav-usuarios-tab" data-bs-toggle="tab" data-bs-target="#nav-usuarios"
+                                type="button" role="tab" aria-controls="nav-usuarios" aria-selected="false">
+                                <i class="fa-solid fa-users icono-menu-secundario"></i> Usuarios
+                            </button>
+
+                            <!--area de agregar nuevos--------------->
+                            <div class="dropdown ms-5 d-flex align-items-center">
+
+
+
+                                <div>
+
+                                    <a href="" class="drepdown-toggle text-decoration-none  btn btn-outline-success  btn-sm" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-thin fa-user-plus icono_agregarNuevo "></i> <p class="d-none d-md-inline">Agregar</p>
+                                    </a>
+
+                                    <ul class="dropdown-menu " aria-labelledby="dropdownMenu2">
+
+                                        <!--Button trigger modal Electromecanica-->
+                                        <li><button class="dropdown-item text-success" type="button" data-bs-toggle="modal" data-bs-target="#modalagregarElectromecanico" id="agregarElectromecanico">Electromecanica</button></li>
+
+
+                                        <!--Button trigger modal Mantenedor-->
+                                        <li><button class="dropdown-item item text-success" type="button" data-bs-toggle="modal" data-bs-target="#modalAgregarMantenedor" id="agregarmantenedor">Mantenedores</button></li>
+
+
+                                        <!--Button trigger modal Estaciones-->
+                                        <li><button class="dropdown-item item text-success" type="button" data-bs-toggle="modal" data-bs-target="#modalagregarestacion" id="agregarElectromecanico">Estaciones</button></li>
+
+                                        <!--Button trigger modal Usuarios-->
+                                        <li><button class="dropdown-item item text-success" type="button" data-bs-toggle="modal" data-bs-target="#modalagregarusuario" id="agregarElectromecanico">Usuarios</button></li>
+
+
+
+                                    </ul>
+
+
+                                </div>
+
+
+
+
+
+                            </div>
+
+
+
+
+                        }
+
+                        <div class="ms-5  d-flex align-items-center">
+
+                            <form asp-controller="Electromecanica" asp-action="Reportes" method="get">
+
+
+
+
+                                <button class="btn btn-outline-success btn-sm"><i class="fas fa-solid fa-file-arrow-down"></i> <p class="d-none d-md-inline">Reportes</p></button>
+                            </form>
+                        </div>
+
+
+
+                    </div>
+
+
+
+                </nav>
+
+
+            </div>
+
+            <!---columna filtro-->
+
+            <div class="col-12 my-4 container-filtro ">
+
+                <input class=" filtro form-control" id="electromecanica" placeholder="Filtrar.." />
+            </div>
+
+            <!---columna tabla-->
+            <div class="col-12 tabla overflow-auto">
+
+                <div class="tab-content" id="nav-tabContent">
+
+                    <!---------Seccion 1 tabla Electromecanica---------->
+
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                        <table class="table table-responsive    ">
+
+                            <thead class=" text-primary ">
+
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th style="width:200px">Teléfono</th>
+                                    <th>Extensión</th>
+                                    <th>Correo</th>
+                                    <th>Subsistema</th>
+
+
+                                    @if (User.IsInRole("Administrador"))
+                                    {
+
+                                        <th colspan="2" class="text-center">Operaciones</th>
+                                    }
+
+                                </tr>
+                            </thead>
+                            <tbody id="tbodydata" class="">
+                            </tbody>
+
+
+
+
+
+                        </table>
+
+                    </div>
+
+                    <!---Seccion 2 tabla Matenedor-->
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+                        <table class="table ">
+                            <thead class="text-primary">
+
+                                <tr>
+                                    <th style="width:150px">Mantenedor</th>
+                                    <th>Nombre</th>
+                                    <th>Función</th>
+                                    <th style="width:150px">Teléfono</th>
+                                    <th>Extensión</th>
+                                    <th style="width:100px">Radio Tetra</th>
+                                    <th>Subsistema</th>
+
+                                    @if (User.IsInRole("Administrador"))
+                                    {
+
+                                        <th colspan="2" class="text-center">Operaciones</th>
+                                    }
+
+                                </tr>
+                            </thead>
+                            <tbody id="tbodydataMantenedor">
+                            </tbody>
+
+
+
+                        </table>
+
+                    </div>
+
+
+                    <!---Seccion 3 tabla Estaciones-->
+                    <div class="tab-pane fade" id="nav-contact" role="tabpanel"
+                         aria-labelledby="nav-usuarios-tab">
+
+
+                        <table class="table ">
+                            <thead class="text-primary">
+
+                                <tr>
+                                    <th>Línea</th>
+                                    <th>Estación</th>
+                                    <th>TIC</th>
+                                    <th>CCI</th>
+                                    <th>COM</th>
+                                    <th>Enclavamiento</th>
+                                    <th>AT/BT</th>
+                                    <th>SET</th>
+                                    <th>Cabina de andén</th>
+                                    <th>Interfono</th>
+                                    <th>PSTN. Emergencia</th>
+
+                                    @if (User.IsInRole("Administrador"))
+                                    {
+
+                                        <th colspan="2" class="text-center">Operaciones</th>
+
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody id="tbodydataEstaciones">
+                            </tbody>
+
+
+
+
+
+                        </table>
+                    </div>
+
+
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <!---Seccion 3 tabla Usuarios-->
+                        <div class="tab-pane fade" id="nav-usuarios" role="tabpanel"
+                         aria-labelledby="nav-contact-tab">
+
+
+                            <table class="table ">
+                                <thead class="text-primary">
+
+                                    <tr class="">
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>Código</th>
+                                        <th>Usuario</th>
+                                        <th>Perfil</th>
+                                        <th class="text-center text-al" colspan="2">Operaciones</th>
+
+                                        @*<th colspan="2" class="text-center">Operaciones</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodydataUsuarios">
+                                </tbody>
+
+
+
+
+
+                            </table>
+                        </div>
+                    }
+
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+
+</div>

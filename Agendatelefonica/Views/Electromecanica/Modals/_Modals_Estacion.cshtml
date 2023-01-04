@@ -1,0 +1,238 @@
+﻿
+
+<!-- Modal para agregar Estaciones-->
+<div class="modal fade" id="modalagregarestacion" data-bs-backdrop="static" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="exampleModalLabel">Agregar Estación</h5>
+                @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
+            </div>
+
+            <form method="post" id="form_agregarEstacion">
+
+                <div class="modal-body row" id="estacion_divpadre_camposObligatorios">
+
+
+                    <div class="col-4 mb-3 container-input">
+
+                        <label class="form-label">Linea</label>
+                        <input class="form-control form-control-css estacion_campos_obligatorios" id="estacion_linea" />
+                        <span class="campo_correcto estacion_iconoError_camposObligatorios" id="estacion_error-linea"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-4 mb-3 container-input">
+
+                        <label class="form-label">Estacion</label>
+                        <input class="form-control form-control-css estacion_campos_obligatorios" id="estacion_estacion" />
+                        <span class="campo_correcto estacion_iconoError_camposObligatorios " id="estacion_error-estacion"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+
+                    <div class="col-4 mb-3 container-input ">
+
+                        <label class="form-label">TIC</label>
+                        <input class="form-control  form-control-css estacion_campos_obligatorios" id="estacion_tic" />
+                        <span class="campo_correcto estacion_iconoError_camposObligatorios" id="estacion_error-tic"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-4  mb-3 container-input">
+
+                        <label class="form-label">CCI</label>
+                        <input class="form-control form-control-css estacion_campos_obligatorios" id="estacion_cci" />
+                        <span class="campo_correcto estacion_iconoError_camposObligatorios" id="estacion_error-cci"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-4  mb-3 container-input ">
+
+                        <label class="form-label">Cuarto COM</label>
+                        <input class="form-control  form-control-css" id="estacion_com" />
+
+
+                    </div>
+                    <div class="col-4  mb-3 container-input ">
+
+                        <label class="form-label">Enclavamiento</label>
+                        <input class="form-control-css form-control" id="estacion_enclavamiento">
+
+
+                    </div>
+
+                    <div class="col-4  mb-3 container-input ">
+
+                        <label class="form-label">AT/BT</label>
+                        <input class="form-control-css form-control" id="estacion_atbt">
+
+
+                    </div>
+                    <div class="col-4 mb-3 container-input ">
+
+                        <label class="form-label">SET</label>
+                        <input class="form-control-css form-control" id="estacion_set">
+
+
+                    </div>
+                    <div class="col-4  mb-3 container-input ">
+
+                        <label class="form-label">Cabina de anden</label>
+                        <input class="form-control-css form-control" id="estacion_cabinaanden">
+
+
+                    </div>
+                    <div class="col-4  mb-3 container-input ">
+
+                        <label class="form-label">Interfono</label>
+                        <input class="form-control-css form-control estacion_campos_obligatorios" id="estacion_interfono">
+                        <span class="campo_correcto estacion_iconoError_camposObligatorios" id="estacion_error-interfono"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-4  mb-3 container-input ">
+
+                        <label class="form-label">PSTN. Emergencia</label>
+                        <input class="form-control-css form-control" id="estacion_emergencia">
+
+
+                    </div>
+                    <div class="col-12 mb-3 container-input ">
+
+                        <div class="alert alert-danger alert-campos-obligatorios " role="alert" id="estacion_alert_camposObligatorios">
+                            <p> Los campos marcados con  <span class="Icono_alerta "><i class="bi bi-x-circle-fill"></i></span> son obligatorios.
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="estacion_btncerrar">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
+<!-- Modal para actualizar Estaciones-->
+<div class="modal fade" id="modalActualizar_estacion" data-bs-backdrop="static" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="exampleModalLabel">Editar Estación</h5>
+                @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
+            </div>
+
+            <form method="post" id="form_actualizarEstacion">
+
+                <div class="modal-body row" id="estacion_divpadre_camposObligatoriosActualizar">
+
+
+                    <div class="col-12 mb-3 container-input">
+
+
+                        <input class="form-control form-control-css" id="estacion_id" disabled hidden />
+
+
+                    </div>
+
+
+                    <div class="col-4 mb-3 container-input">
+
+                        <label class="form-label">Linea</label>
+                        <input class="form-control form-control-css estacion_campos_obligatoriosActualizar" id="estacion_lineaActualizar" />
+                        <span class="campo_correcto estacion_iconoError_camposObligatoriosActualizar" id="estacion_error_lineaActualizar"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-4 mb-3 container-input">
+
+                        <label class="form-label">Estacion</label>
+                        <input class="form-control form-control-css estacion_campos_obligatoriosActualizar" id="estacion_estacionActualizar" />
+                        <span class="campo_correcto estacion_iconoError_camposObligatoriosActualizar" id="estacion_error_estacionActualizar"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+
+                    <div class="col-4 mb-3 container-input ">
+
+                        <label class="form-label">TIC</label>
+                        <input class="form-control  form-control-css estacion_campos_obligatoriosActualizar" id="estacion_ticActualizar" />
+                        <span class="campo_correcto estacion_iconoError_camposObligatoriosActualizar" id="estacion_error_ticActualizar"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-4  mb-3 container-input">
+
+                        <label class="form-label">CCI</label>
+                        <input class="form-control form-control-css estacion_campos_obligatoriosActualizar" id="estacion_cciActualizar" />
+                        <span class="campo_correcto estacion_iconoError_camposObligatoriosActualizar" id="estacion_error_cciActualizar"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-4  mb-3 container-input ">
+
+                        <label class="form-label">Cuarto COM</label>
+                        <input class="form-control  form-control-css" id="estacion_comActualizar" />
+
+
+                    </div>
+                    <div class="col-4  mb-3 container-input ">
+
+                        <label class="form-label">Enclavamiento</label>
+                        <input class="form-control-css form-control" id="estacion_enclavamientoActualizar">
+
+                    </div>
+
+                    <div class="col-4  mb-3 container-input ">
+
+                        <label class="form-label">AT/BT</label>
+                        <input class="form-control-css form-control" id="estacion_atbtActualizar">
+
+                    </div>
+                    <div class="col-4 mb-3 container-input ">
+
+                        <label class="form-label">SET</label>
+                        <input class="form-control-css form-control" id="estacion_setActualizar">
+
+
+                    </div>
+                    <div class="col-4  mb-3 container-input ">
+
+                        <label class="form-label">Cabina de anden</label>
+                        <input class="form-control-css form-control" id="estacion_cabinaandenActualizar">
+
+
+                    </div>
+                    <div class="col-4  mb-3 container-input ">
+
+                        <label class="form-label">Interfono</label>
+                        <input class="form-control-css form-control estacion_campos_obligatoriosActualizar" id="estacion_interfonoActualizar">
+                        <span class="campo_correcto estacion_iconoError_camposObligatoriosActualizar" id="estacion_error_interfonoActualizar"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-4  mb-3 container-input ">
+
+                        <label class="form-label">PSTN. Emergencia</label>
+                        <input class="form-control-css form-control" id="estacion_emergenciaActualizar">
+
+
+                    </div>
+                    <div class="col-12 mb-3 container-input ">
+
+                        <div class="alert alert-danger alert-campos-obligatorios " role="alert" id="estacion_alert_camposObligatoriosActualizar">
+                            <p> Los campos marcados con  <span class="Icono_alerta "><i class="bi bi-x-circle-fill"></i></span> son obligatorios.
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="estacion_btncerrarActualizar">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+</div>

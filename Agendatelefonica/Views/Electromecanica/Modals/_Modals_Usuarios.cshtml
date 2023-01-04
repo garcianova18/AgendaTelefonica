@@ -1,0 +1,160 @@
+﻿<!-- Modal para agregar usuarios-->
+<div class="modal fade" id="modalagregarusuario" data-bs-backdrop="static" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="exampleModalLabel">Agregar Usuario</h5>
+                @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
+            </div>
+
+            <form method="post" id="form_agregarUsuario">
+
+                <div class="modal-body row" id="user_divpadre">
+
+
+                    <div class="col-6 mb-3 container-input">
+
+                        <label class="form-label">Nombre</label>
+                        <input class="form-control form-control-css user_campos_obligatorios" id="user_nombre" />
+                        <span class="campo_correcto user_iconoError_camposObligatorios" id="user_error_nombre"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-6 mb-3 container-input">
+
+                        <label class="form-label">Apellido</label>
+                        <input class="form-control form-control-css user_campos_obligatorios" id="user_apellido" />
+                        <span class="campo_correcto user_iconoError_camposObligatorios" id="user_error_apellido"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+
+                    <div class="col-6 mb-3 container-input ">
+
+                        <label class="form-label">Codigo</label>
+                        <input class="form-control  form-control-css user_campos_obligatorios" id="user_codigo" />
+                        <span class="campo_correcto user_iconoError_camposObligatorios" id="user_error_codigo"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-6  mb-3 container-input">
+
+                        <label class="form-label">Usuario</label>
+                        <input class="form-control form-control-css user_campos_obligatorios" id="user_usuario" />
+                        <span class="campo_correcto user_iconoError_camposObligatorios" id="user_error_usuario"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-6 mb-3 container-input ">
+
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" class="form-control  form-control-css user_campos_obligatorios" id="user_contrasena" />
+                        <span class="campo_correcto user_iconoError_camposObligatorios" id="user_error_contrasena"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-6 mb-3 container-input ">
+
+                        <label class="form-label">Perfil</label>
+                        <select asp-items="ViewBag.roles" class="form-control-css form-control user_campos_obligatorios" id="user_rol"></select>
+                        <span class="campo_correcto user_iconoError_camposObligatorios" id="user_error_rol"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+
+                    <div class="col-12 mb-3 container-input ">
+
+                        <div class="alert alert-danger alert-campos-obligatorios " role="alert" id="user_alert_camposObligatorios">
+                            Todos los campos son requridos.
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="usuario_btncerrar">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
+<!-- Modal para actualizar usuarios-->
+<div class="modal fade" id="modalActualizar_usuarios" data-bs-backdrop="static" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="exampleModalLabel">Editar Usuario</h5>
+                @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
+            </div>
+
+            <form method="post" id="form_actualizarUsuario">
+
+                <div class="modal-body row" id="user_divpadreActualizar">
+
+                    <input class="form-control form-control-css" id="user_idusuario" disabled hidden />
+
+                    <div class="col-6 mb-3 container-input">
+
+                        <label class="form-label">Nombre</label>
+                        <input class="form-control form-control-css user_campos_obligatoriosActualizar" id="user_nombreActualizar" />
+                        <span class="campo_correcto user_iconoError_camposObligatoriosActualizar" id="user_error_nombreActualizar"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-6 mb-3 container-input">
+
+                        <label class="form-label">Apellido</label>
+                        <input class="form-control form-control-css user_campos_obligatoriosActualizar" id="user_apellidoActualizar" />
+                        <span class="campo_correcto user_iconoError_camposObligatoriosActualizar" id="user_error_apellidoActualizar"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+
+                    <div class="col-6 mb-3 container-input ">
+
+                        <label class="form-label">Codigo</label>
+                        <input class="form-control  form-control-css user_campos_obligatoriosActualizar" id="user_codigoActualizar" />
+                        <span class="campo_correcto user_iconoError_camposObligatoriosActualizar" id="user_error_codigoActualizar"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-6  mb-3 container-input">
+
+                        <label class="form-label">Usuario</label>
+                        <input class="form-control form-control-css user_campos_obligatoriosActualizar" id="user_usuarioActualizar" />
+                        <span class="campo_correcto user_iconoError_camposObligatoriosActualizar" id="user_error_usuarioActualizar"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-6 mb-3 container-input ">
+
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" class="form-control form-control-css user_campos_obligatoriosActualizar" id="user_contrasenaActualizar" />
+                        <span class="campo_correcto user_iconoError_camposObligatoriosActualizar" id="user_error_contrasenaActualizar"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+                    <div class="col-6 mb-3 container-input ">
+
+                        <label class="form-label">Perfil</label>
+                        <select asp-items="ViewBag.roles" class="form-control-css form-control user_campos_obligatoriosActualizar" id="user_rolActualizar"></select>
+                        <span class="campo_correcto user_iconoError_camposObligatoriosActualizar" id="user_error_rolActualizar"><i class="bi bi-x-circle-fill"></i></span>
+
+                    </div>
+
+                    <div class="col-12 mb-3 container-input ">
+
+                        <div class="alert alert-danger alert-campos-obligatorios " role="alert" id="user_alert_camposObligatoriosActualizar">
+                            Todos los campos son requridos.
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="usuario_btncerrar_actualizar">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+</div>

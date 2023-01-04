@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Agendatelefonica",
+    "\\Agendatelefonica\\Controllers",
+    "\\Agendatelefonica\\Services",
+    "\\Agendatelefonica\\Views",
+    "\\Agendatelefonica\\Views\\Acceso"
   ],
   "SelectedNode": "\\Agendatelefonica.sln",
   "PreviewInSolutionExplorer": false

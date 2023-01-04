@@ -119,6 +119,14 @@ body {
     font-size: 1rem;
 }
 
+.card .card-header {
+    background-color: rgb(10 10 65);
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 @media (max-width: 992px) {
     .container-menu-secundario .menu {
         height: 100px;
@@ -173,11 +181,8 @@ body {
         transform: rotate(-245deg) translate(-50%, -50%)
     }
 }
-.card-header {
-    background-color: rgb(10 10 65);
-    height:75px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    
-}
+
+
+
+
+
