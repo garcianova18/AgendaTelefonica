@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
 using Agendatelefonica.Services;
 using System.Collections;
+using Microsoft.Extensions.Logging;
 
 namespace Agendatelefonica.Controllers
 {
@@ -24,20 +25,29 @@ namespace Agendatelefonica.Controllers
         private readonly IMapper mapper;
         private readonly IHubContext<agendaHub> hubContext;
         private readonly IRepositoryGenerico<Electromecanica> repositoryGenerico;
+        private readonly Ireportes _reportes;
+        private readonly ISelectRol selectRoles;
+
+        private readonly ILogger<ElectromecanicaController> logger;
 
         
-        public ElectromecanicaController(AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext, IRepositoryGenerico<Electromecanica> repositoryGenerico)
+        public ElectromecanicaController(AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext,
+            IRepositoryGenerico<Electromecanica> repositoryGenerico,
+            Ireportes reportes, ISelectRol selectRoles, ILogger<ElectromecanicaController> logger)
         {
            
             this.context = context;
             this.mapper = mapper;
             this.hubContext = hubContext;
             this.repositoryGenerico = repositoryGenerico;
+            _reportes = reportes;
+            this.selectRoles = selectRoles;
+            this.logger = logger;
            
         }
         public IActionResult Index()
         {
-            ViewBag.roles = SelectRol();
+            ViewBag.roles = selectRoles.SelectRol();
             return View();
         }
 
@@ -112,29 +122,6 @@ namespace Agendatelefonica.Controllers
         }
 
 
-        public List<SelectListItem> SelectRol()
-        {
-
-            var roles = context.Rols.Select(r => new SelectListItem
-            {
-
-                Text = r.Nombre,
-                Value = r.Id.ToString()
-
-            }).ToList();
-
-            roles.Insert(0, new SelectListItem
-            {
-                Text = "Seleccione un rol",
-                Value = ""
-            });
-
-
-            return roles;
-
-
-
-        }
 
 
 
@@ -242,7 +229,7 @@ namespace Agendatelefonica.Controllers
 
             var Reportes = new Reportes(context);
 
-            return await Reportes.ReportesExcel();
+            return await _reportes.ReportesExcel();
 
         }
 

@@ -43,7 +43,8 @@ namespace Agendatelefonica
                });
 
             services.AddSignalR();
-
+            services.AddTransient<Ireportes, Reportes>();
+            services.AddTransient<ISelectRol, SelectRoles>();
            
         }
 
