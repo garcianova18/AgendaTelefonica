@@ -21,28 +21,21 @@ namespace Agendatelefonica.Controllers
     public class ElectromecanicaController : Controller
     {
        
-        private readonly AgendatelefonicaContext context;
         private readonly IMapper mapper;
         private readonly IHubContext<agendaHub> hubContext;
         private readonly IRepositoryGenerico<Electromecanica> repositoryGenerico;
         private readonly Ireportes _reportes;
         private readonly ISelectRol selectRoles;
 
-        private readonly ILogger<ElectromecanicaController> logger;
-
-        
-        public ElectromecanicaController(AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext,
-            IRepositoryGenerico<Electromecanica> repositoryGenerico,
-            Ireportes reportes, ISelectRol selectRoles, ILogger<ElectromecanicaController> logger)
+        public ElectromecanicaController(AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext,IRepositoryGenerico<Electromecanica> repositoryGenerico,Ireportes reportes, ISelectRol selectRoles)
         {
            
-            this.context = context;
             this.mapper = mapper;
             this.hubContext = hubContext;
             this.repositoryGenerico = repositoryGenerico;
             _reportes = reportes;
             this.selectRoles = selectRoles;
-            this.logger = logger;
+         
            
         }
         public IActionResult Index()
@@ -76,54 +69,6 @@ namespace Agendatelefonica.Controllers
         }
 
        
-
-        public IEnumerable Mantenedores(string mantenedor)
-        {
-            var mantenedores = context.Mantenedores.ProjectTo<MantenedoresView>(mapper.ConfigurationProvider);
-
-
-            if (mantenedor != null)
-            {
-                mantenedores = mantenedores.Where(n => n.Mantenedor.Contains(mantenedor.Trim()) || n.Nombre.Contains(mantenedor.Trim()) || n.Funcion.Contains(mantenedor.Trim()) || n.Telefono.Contains(mantenedor.Trim()) || n.Subsistema.Contains(mantenedor.Trim()));
-            }
-
-
-
-            return mantenedores.OrderBy(m => m.Mantenedor);
-        }
-
-        public JsonResult Estaciones(string estacion)
-        {
-
-
-            var estaciones = context.Estaciones.ProjectTo<EstacionesView>(mapper.ConfigurationProvider);
-
-
-            if (estacion != null)
-            {
-                estaciones = estaciones.Where(n => n.Linea.Contains(estacion.Trim()) || n.Estacion.Contains(estacion.Trim()) || n.Boleteria.Contains(estacion.Trim()) || n.CuartoControl.Contains(estacion.Trim()) || n.CuartoCom.Contains(estacion.Trim()) || n.CuartoCom.Contains(estacion.Trim()) || n.CuartoCom.Contains(estacion.Trim()) || n.Enclavamiento.Contains(estacion.Trim()) || n.CuartoAtbt.Contains(estacion.Trim()) || n.SubestacionTraccion.Contains(estacion.Trim()) || n.CabinaAnden.Contains(estacion.Trim()) || n.PstnEmergencia.Contains(estacion.Trim()));
-            }
-
-            return Json(estaciones.OrderBy(L =>L.Linea));
-        }
-
-
-        public IActionResult Usuarios(string usuario)
-        {
-            var usuarios = context.Usuarios.ProjectTo<UsuariosView>(mapper.ConfigurationProvider);
-
-            if (usuario != null)
-            {
-                usuarios = usuarios.Where(u => u.Nombre.Contains(usuario) || u.Apellido.Contains(usuario) || u.Codigo.Contains(usuario) || u.UserName.Contains(usuario));
-            }
-
-
-            return Json(usuarios.OrderBy(u=> u.UserName));
-        }
-
-
-
-
 
         //==================CRUD de electromecanica============================
 
@@ -227,7 +172,7 @@ namespace Agendatelefonica.Controllers
         public async Task<FileResult> Reportes()
         {
 
-            var Reportes = new Reportes(context);
+            
 
             return await _reportes.ReportesExcel();
 

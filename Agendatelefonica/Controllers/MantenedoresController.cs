@@ -31,16 +31,20 @@ namespace Agendatelefonica.Controllers
             this.repositoryGenerico = repositoryGenerico;
         }
 
-        
-        public IEnumerable Mantenedores(string mantenedor)
+
+        public async Task<IEnumerable> Mantenedores(string mantenedor)
         {
-            var mantenedores = context.Mantenedores.ProjectTo<MantenedoresView>(mapper.ConfigurationProvider);
+
+            var mantenedores = await repositoryGenerico.GetAll();
+
+            var MapMantenedores = mapper.Map<IEnumerable<MantenedoresView>>(mantenedores);
 
 
             if (mantenedor != null)
             {
-                mantenedores = mantenedores.Where(n => n.Mantenedor.Contains(mantenedor.Trim()) || n.Nombre.Contains(mantenedor.Trim()) || n.Funcion.Contains(mantenedor.Trim()) || n.Telefono.Contains(mantenedor.Trim()) || n.Subsistema.Contains(mantenedor.Trim()));
+                MapMantenedores = MapMantenedores.Where(n => n.Mantenedor.Contains(mantenedor.Trim()) || n.Nombre.Contains(mantenedor.Trim()) || n.Funcion.Contains(mantenedor.Trim()) || n.Telefono.Contains(mantenedor.Trim()) || n.Subsistema.Contains(mantenedor.Trim()));
             }
+
 
 
             return mantenedores.OrderBy(m => m.Mantenedor);

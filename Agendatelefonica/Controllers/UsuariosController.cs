@@ -23,16 +23,32 @@ namespace Agendatelefonica.Controllers
         private readonly IMapper mapper;
         private readonly IHubContext<agendaHub> hubContext;
         private readonly IRepositoryGenerico<Usuario> repositoryGenerico;
-   
+        private readonly IServicioUsuario servicioUsuario;
 
         public UsuariosController(AgendatelefonicaContext context, IMapper mapper, 
-            IHubContext<agendaHub> hubContext, IRepositoryGenerico<Usuario> repositoryGenerico)
+            IHubContext<agendaHub> hubContext, IRepositoryGenerico<Usuario> repositoryGenerico, IServicioUsuario servicioUsuario)
         {
             this.context = context;
             this.mapper = mapper;
             this.hubContext = hubContext;
             this.repositoryGenerico = repositoryGenerico;
-            
+            this.servicioUsuario = servicioUsuario;
+        }
+        public async Task<IEnumerable<UsuariosView>> Usuarios(string usuario)
+        {
+
+            var usuarios = await servicioUsuario.Usuarios();
+
+            var MapUsuarios = mapper.Map<IEnumerable<UsuariosView>>(usuarios);
+
+
+            if (usuario != null)
+            {
+                MapUsuarios = MapUsuarios.Where(u => u.Nombre.Contains(usuario) || u.Apellido.Contains(usuario) || u.Codigo.Contains(usuario) || u.UserName.Contains(usuario));
+            }
+
+
+            return MapUsuarios.OrderBy(u => u.UserName);
         }
 
         public async Task<ActionResult<int>> CrearEditarUsuarios([FromBody] UsuarioCreateView usuario)

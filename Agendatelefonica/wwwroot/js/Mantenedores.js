@@ -4,7 +4,7 @@ const mantenedor = document.getElementById("electromecanica");
 
 function filtrarMantenedor() {
 
-    const urlmantenedor = "/Electromecanica/Mantenedores/?mantenedor=" + mantenedor.value;
+    const urlmantenedor = "/Mantenedores/Mantenedores/?mantenedor=" + mantenedor.value;
 
 
     listarMantenedores(urlmantenedor);
