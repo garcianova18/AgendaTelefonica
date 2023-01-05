@@ -23,13 +23,16 @@ namespace Agendatelefonica.Controllers
         private readonly IMapper mapper;
         private readonly IHubContext<agendaHub> hubContext;
         private readonly IRepositoryGenerico<Usuario> repositoryGenerico;
+   
 
-        public UsuariosController(AgendatelefonicaContext context, IMapper mapper, IHubContext<agendaHub> hubContext, IRepositoryGenerico<Usuario> repositoryGenerico)
+        public UsuariosController(AgendatelefonicaContext context, IMapper mapper, 
+            IHubContext<agendaHub> hubContext, IRepositoryGenerico<Usuario> repositoryGenerico)
         {
             this.context = context;
             this.mapper = mapper;
             this.hubContext = hubContext;
             this.repositoryGenerico = repositoryGenerico;
+            
         }
 
         public async Task<ActionResult<int>> CrearEditarUsuarios([FromBody] UsuarioCreateView usuario)
@@ -146,29 +149,7 @@ namespace Agendatelefonica.Controllers
         }
 
 
-        public List<SelectListItem> SelectRol()
-        {
-
-            var roles = context.Rols.Select(r => new SelectListItem
-            {
-
-                Text = r.Nombre,
-                Value = r.Id.ToString()
-
-            }).ToList();
-
-            roles.Insert(0, new SelectListItem
-            {
-                Text = "Seleccione un rol",
-                Value = ""
-            });
-
-
-            return roles;
-
-
-
-        }
+      
 
 
     }           

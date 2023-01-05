@@ -10,7 +10,14 @@ using System.Threading.Tasks;
 
 namespace Agendatelefonica.Services
 {
-    public class Reportes:ControllerBase
+
+    public interface Ireportes
+    {
+        Task<FileResult> ReportesExcel();
+    }
+
+
+    public class Reportes:ControllerBase, Ireportes
     {
 
         private readonly AgendatelefonicaContext context;
