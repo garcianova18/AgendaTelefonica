@@ -429,7 +429,7 @@ const estacion = document.getElementById("electromecanica");
 
 function filtrarEstaciones() {
 
-    const urlestacion = "/Electromecanica/Estaciones/?estacion=" + estacion.value;
+    const urlestacion = "/Estaciones/Estaciones/?estacion=" + estacion.value;
 
     listarEstaciones(urlestacion);
 

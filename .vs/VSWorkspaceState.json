@@ -4,11 +4,11 @@
     "\\Agendatelefonica",
     "\\Agendatelefonica\\Controllers",
     "\\Agendatelefonica\\Services",
-    "\\Agendatelefonica\\ViewModels",
     "\\Agendatelefonica\\Views",
     "\\Agendatelefonica\\Views\\Acceso",
-    "\\Agendatelefonica\\Views\\Electromecanica"
+    "\\Agendatelefonica\\Views\\Electromecanica",
+    "\\Agendatelefonica\\Views\\Electromecanica\\Secciones_Menu"
   ],
-  "SelectedNode": "\\Agendatelefonica\\Startup.cs",
+  "SelectedNode": "\\Agendatelefonica.sln",
   "PreviewInSolutionExplorer": false
 }

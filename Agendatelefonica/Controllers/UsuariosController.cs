@@ -19,16 +19,16 @@ namespace Agendatelefonica.Controllers
 {
     public class UsuariosController : Controller
     {
-        private readonly AgendatelefonicaContext context;
+       
         private readonly IMapper mapper;
         private readonly IHubContext<agendaHub> hubContext;
         private readonly IRepositoryGenerico<Usuario> repositoryGenerico;
         private readonly IServicioUsuario servicioUsuario;
 
-        public UsuariosController(AgendatelefonicaContext context, IMapper mapper, 
+        public UsuariosController( IMapper mapper, 
             IHubContext<agendaHub> hubContext, IRepositoryGenerico<Usuario> repositoryGenerico, IServicioUsuario servicioUsuario)
         {
-            this.context = context;
+         
             this.mapper = mapper;
             this.hubContext = hubContext;
             this.repositoryGenerico = repositoryGenerico;
@@ -53,10 +53,16 @@ namespace Agendatelefonica.Controllers
 
         public async Task<ActionResult<int>> CrearEditarUsuarios([FromBody] UsuarioCreateView usuario)
         {
+            // verificar si el usuario tanto para crear coo par actualiza existe
+                var verificaExisteUser = await servicioUsuario.VerifivarExiste(usuario);
+            
+           
+
+
             if (usuario.Id == 0)
             {
 
-                var verificaExisteUser = context.Usuarios.Where(u => u.UserName.Trim() == usuario.UserName.Trim()).Count();
+                
 
                 var mapusuario = mapper.Map<Usuario>(usuario);
 
@@ -89,12 +95,12 @@ namespace Agendatelefonica.Controllers
                 }
 
             }
+
             else
             {
                 //Editar
 
-                var verificaExisteUser = context.Usuarios.Where(u => u.UserName.Trim() == usuario.UserName.Trim() && u.Id != usuario.Id).Count();
-
+                
 
                 if (verificaExisteUser == 1)
                 {

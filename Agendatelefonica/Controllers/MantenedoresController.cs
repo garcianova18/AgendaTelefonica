@@ -47,7 +47,7 @@ namespace Agendatelefonica.Controllers
 
 
 
-            return mantenedores.OrderBy(m => m.Mantenedor);
+            return MapMantenedores.OrderBy(m => m.Mantenedor);
         }
 
 

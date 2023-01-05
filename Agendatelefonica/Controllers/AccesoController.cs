@@ -1,14 +1,11 @@
 ﻿ using Agendatelefonica.Models;
-using Agendatelefonica.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Agendatelefonica.Controllers;
+using Agendatelefonica.Services;
 
 namespace gesin_app.Controllers  
 {
@@ -17,13 +14,13 @@ namespace gesin_app.Controllers
     public class AccesoController : Controller
     {
 
-        private readonly AgendatelefonicaContext context;
         
+        private readonly IServicioAcceso servicioAcceso;
 
-        public AccesoController(AgendatelefonicaContext context)
+        public AccesoController(IServicioAcceso servicioAcceso)
         {
-            this.context = context;
             
+            this.servicioAcceso = servicioAcceso;
         }
 
         public IActionResult Index()
@@ -36,11 +33,10 @@ namespace gesin_app.Controllers
 
 
         [HttpPost]
-        public async Task< IActionResult> Login( UsuariosView usuarioview)
+        public async Task< IActionResult> Login( Usuario usuario)
         {
 
-            var usuario = await context.Usuarios.Include(R=> R.IdRolNavigation).Where(u => u.UserName == usuarioview.UserName && u.Password == usuarioview.Password).FirstOrDefaultAsync();
-
+            var Usuario = await servicioAcceso.BuscarUsuario(usuario);
 
             if (usuario !=null)
             {
@@ -49,10 +45,10 @@ namespace gesin_app.Controllers
 
                 var Claims = new List<Claim>
                 {
-                   new Claim("Username", usuarioview.UserName = usuario.UserName),
-                   new Claim (ClaimTypes.Name, usuarioview.FullName = usuario.Nombre + " " + usuario.Apellido),
-                   new Claim("id", (usuarioview.Id = usuario.Id).ToString()),
-                    new Claim(ClaimTypes.Role, usuarioview.IdRolNavigationNombre = usuario.IdRolNavigation.Nombre)
+                   new Claim("Username", Usuario.UserName),
+                   new Claim (ClaimTypes.Name, Usuario.Nombre + " " + Usuario.Apellido),
+                   new Claim("id", Usuario.Id.ToString()),
+                   new Claim(ClaimTypes.Role, Usuario.IdRolNavigation.Nombre)
 
                 };
 

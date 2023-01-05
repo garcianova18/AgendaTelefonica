@@ -555,7 +555,7 @@ const usuarios = document.getElementById("electromecanica");
 
 function filtrarUsuarios() {
 
-    const urlusuarios = "/Electromecanica/Usuarios/?usuario=" + usuarios.value;
+    const urlusuarios = "/Usuarios/Usuarios/?usuario=" + usuarios.value;
 
 
     listarUsuarios(urlusuarios);

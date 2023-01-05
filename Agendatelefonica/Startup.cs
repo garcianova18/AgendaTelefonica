@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Agendatelefonica.Controllers;
 using Agendatelefonica.Services;
-using System.Text.Json.Serialization;
 
 namespace Agendatelefonica
 {
@@ -50,6 +49,7 @@ namespace Agendatelefonica
             services.AddTransient<Ireportes, Reportes>();
             services.AddTransient<ISelectRol, SelectRoles>();
             services.AddScoped<IServicioUsuario, ServicioUsuario>();
+            services.AddTransient<IServicioAcceso, ServicioAcceso>();
 
            
         }
