@@ -169,7 +169,7 @@ namespace Agendatelefonica.Controllers
         }
 
         //Metodo para descargar reporte en excel
-        public async Task<FileResult> Reportes()
+        public async Task<FileResult> Reportes(string name)
         {
 
             
